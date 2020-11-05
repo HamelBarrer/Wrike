@@ -1,0 +1,36 @@
+<!-- Urls for the app of user -->
+{% url 'users:login' as login %}
+{% url 'users:logout' as logout %}
+{% url 'users:register' as register %}
+
+<!-- Urls for the app of task -->
+{% url 'tasks:task' as task %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Tareas</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == logout %}active{% endif %}" href="{{ logout }}">
+                            <i class="fas sign-out-alt"></i>
+                            Cerrar Sesion
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == login %}active{% endif %}" href="{{ login }}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Iniciar Sesion
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
