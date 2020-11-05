@@ -12,16 +12,13 @@ class User(AbstractUser):
 
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
 
-    def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
-
 
 class Administrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     creted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class Developer(models.Model):
@@ -29,7 +26,7 @@ class Developer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 @receiver(post_save, sender=User)
