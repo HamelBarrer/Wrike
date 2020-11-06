@@ -3,8 +3,12 @@
 {% url 'users:logout' as logout %}
 {% url 'users:register' as register %}
 
+<!-- Urls for the app of type_task -->
+{% url 'tasks:type_task' as type_task %}
+
 <!-- Urls for the app of task -->
 {% url 'tasks:task' as task %}
+{% url 'tasks:add_task' as add_task %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -17,8 +21,36 @@
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="nav-link {% if request.path == task %}active{% endif %}" href="{{ task }}">
+                            <i class="fas fa-chart-pie"></i>
+                            Inicio
+                        </a>
+                    </li>
+                    {% if perms.tasks %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == type_task %}active{% endif %}" href="{{ type_task }}">
+                                <i class="fas fa-tasks"></i>
+                                Tipo Tareas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == add_task %}active{% endif %}" href="{{ add_task }}">
+                                <i class="fas fa-tasks"></i>
+                                Tareas
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if perms.users %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == register %}active{% endif %}" href="{{ register }}">
+                                <i class="fas fa-user"></i>
+                                Usuarios
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
                         <a class="nav-link {% if request.path == logout %}active{% endif %}" href="{{ logout }}">
-                            <i class="fas sign-out-alt"></i>
+                            <i class="fas fa-sign-out-alt"></i>
                             Cerrar Sesion
                         </a>
                     </li>

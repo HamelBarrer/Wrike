@@ -1,5 +1,11 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic import View, ListView, UpdateView, CreateView, DeleteView
+from django.views.generic.detail import DetailView
+
+from users.models import Developer
 
 from .models import (
     TypeTask,
@@ -12,6 +18,97 @@ from .forms import (
 )
 
 
-class TaskListView(ListView):
+class TypeTaskView(PermissionRequiredMixin, LoginRequiredMixin, View):
+    login_url = 'users:login'
+    permission_required = 'type_task.can_add_type_task'
+    template_name = 'tasks/add_type_task.html'
+    form_class = TypeTaskForm
+    model = TypeTask
+
+    def get_query_set(self):
+        query = self.model.objects.all().order_by('-pk')
+        return query
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['type_tasks'] = self.get_query_set()
+        context['form'] = self.form_class
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('tasks:type_task')
+
+
+class TypeTaskUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    permission_required = 'type_task.can_change_type_task'
+    template_name = 'tasks/update_type_task.html'
+    form_class = TypeTaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:type_task')
+
+
+class TypeTaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    login_url = 'users:login'
+    permission_required = 'type_task.can_delete_type_task'
+    template_name = 'tasks/delete_type_task.html'
+    form_class = TypeTaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:type_task')
+
+
+class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_view_user'
     template_name = 'index.html'
-    queryset = Task.objects.all().order_by('-pk')
+    queryset = Developer.objects.all().order_by('-pk')
+
+
+class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_add_user'
+    template_name = 'tasks/add_task.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:task')
+
+
+class TaskUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_change_user'
+    template_name = 'tasks/update_task.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:task')
+
+
+class TaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_delete_user'
+    template_name = 'tasks/delete_task.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:task')
+
+
+class DeveloperSearchView(LoginRequiredMixin, ListView):
+    login_url = 'users:login'
+    template_name = 'tasks/search.html'
+
+    def get_queryset(self):
+        return Developer.objects.filter(user__username__icontains=self.query())
+
+    def query(self):
+        return self.request.GET.get('q')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.query()
+        return context

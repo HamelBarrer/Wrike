@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
-from users.models import User
+from users.models import Developer
 
 
 class TypeTask(models.Model):
@@ -18,7 +18,7 @@ class TypeTask(models.Model):
 
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    developer = models.ManyToManyField(Developer)
     type_task = models.ForeignKey(TypeTask, on_delete=models.CASCADE)
     task = models.CharField(max_length=50)
     description = models.TextField()

@@ -1,12 +1,18 @@
-from django.http import request
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
+from .models import User
 from .forms import UserForm
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('tasks:task')
+
     template_name = 'users/login.html'
 
     if request.method == 'POST':
@@ -18,7 +24,7 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, f'Bienvenido {user.username}')
-            return redirect('')
+            return redirect('tasks:task')
         else:
             messages.error(request, 'Usuario o contraseña invalidos')
 
@@ -27,24 +33,13 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, 'Sesion cerrada exitosamente')
     return redirect('users:login')
 
 
-def register_view(request):
+class UserCreationView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
+    permission_required = 'users.can_add_user'
     template_name = 'users/register.html'
-    form = UserForm(request.POST)
-
-    if request.method == 'POST' and form.is_valid():
-        user = form.save()
-
-        if user:
-            login(request, user)
-            messages.success(
-                request,
-                f'El usuario {user.username} fue creado exitosamente'
-            )
-            return redirect('')
-
-    return render(request, template_name, {
-        'form': form,
-    })
+    form_class = UserForm
+    success_url = reverse_lazy('tasks:task')

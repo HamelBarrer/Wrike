@@ -1,0 +1,12 @@
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endfor %}
+    <div class="mb-3">
+        <button type="submit" class="btn btn-success btn-block">Crear Tarea</button>
+    </div>
+</form>

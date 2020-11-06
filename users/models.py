@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
@@ -10,6 +11,7 @@ class User(AbstractUser):
         ('desarrollador', 'Desarrollador'),
     )
 
+    avatar = models.ImageField(default='avatar.png', upload_to='users/')
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
 
 
@@ -36,3 +38,14 @@ def set_role_user(sender, instance, *args, **kwargs):
             Administrator.objects.create(user=instance)
         else:
             Developer.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def set_avatar_user(sender, instance, *args, **kwargs):
+    if instance.avatar:
+        img = Image.open(instance.avatar.path)
+
+        if img.width > 400 and img.height > 400:
+            size = (400, 400)
+            img.thumbnail(size)
+            img.save(instance.avatar.path)

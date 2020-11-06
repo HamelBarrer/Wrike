@@ -1,0 +1,18 @@
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th scope="col">Tipo Tarea</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type_task in type_tasks %}
+            <tr>
+                <td>{{ type_task.name }}</td>
+                <td>
+                    <a href="{% url 'tasks:update_type_task' type_task.pk %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'tasks:delete_type_task' type_task.pk %}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

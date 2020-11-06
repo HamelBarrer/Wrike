@@ -8,8 +8,9 @@ from .models import User
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ('Roles', {'fields': ('role',)}),
+        ('Avatar', {'fields': ('avatar',)}),
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('role',)}),
+        (None, {'fields': ('role','avatar')}),
     )
