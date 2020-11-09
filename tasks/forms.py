@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm
 
 from .models import (
@@ -35,6 +36,8 @@ class TaskForm(ModelForm):
             'task': 'Tarea',
             'description': 'Descripcion',
             'state': 'Estado',
+            # 'project_start': 'Fecha de Inicio',
+            # 'project_finished': 'Fecha de Finalizacion',
         }
 
     def __init__(self, *args, **kwargs):

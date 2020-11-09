@@ -1,10 +1,31 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script>
+    function clonar(){
+        $("#ia").clone().appendTo("#list");
+    }
+</script>
+{% endblock %}
+
 {% block content %}
-    <div class="card mt-2">
-        <div class="card-body">
-            <h3 class="card-title text-center">Crear Tarea</h3>
-            {% include 'tasks/snippets/form.html' with message='Crear' %}
-        </div>
+<div class="card mt-2">
+    <div class="card-body">
+        <h3 class="card-title text-center">Crear Tarea</h3>
+        {% include 'tasks/snippets/form.html' with message='Crear' %}
     </div>
+</div>
+{% endblock %}
+
+{% block scrip %}
+<script>
+    $(document).ready(function () {
+        $(".card-body").append(
+            "<input id='ia' type='text' placeholder='prueba'/>" +
+            "<br/>" +
+            "<button type='button' onclick='clonar();'>Agregar</button>" +
+            "<div id='list'></div>"
+        );
+    });
+</script>
 {% endblock %}

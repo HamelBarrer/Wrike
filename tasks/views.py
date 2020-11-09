@@ -69,6 +69,13 @@ class TypeTaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
     success_url = reverse_lazy('tasks:type_task')
 
 
+class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_view_user'
+    template_name = 'tasks/task.html'
+    queryset = Task.objects.all().order_by('-pk')
+
+
 class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     login_url = 'users:login'
     permission_required = 'tasks.can_add_user'

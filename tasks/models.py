@@ -25,9 +25,15 @@ class Task(models.Model):
     state = models.BooleanField(default=True)
     slug = models.SlugField(max_length=60, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.slug
+
+
+class Activities(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    task = models.ManyToManyField(Task)
 
 
 @receiver(pre_save, sender=TypeTask)

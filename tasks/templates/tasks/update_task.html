@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card mt-2">
+        <div class="card-body">
+            <h3 class="card-title text-center">Actualizar Tarea</h3>
+            {% include 'tasks/snippets/form.html' with message='Actualizar' %}
+        </div>
+    </div>
+{% endblock %}
