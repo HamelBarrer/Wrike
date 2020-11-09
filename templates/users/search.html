@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="col">
-        {% include 'tasks/snippets/search.html' with query=query %}
+        {% include 'users/snippets/search.html' with query=query %}
         <hr>
         <p>Resultados para: {{ query }}</p>
         {% include 'tasks/snippets/developers.html' %}

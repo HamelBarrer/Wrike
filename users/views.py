@@ -2,10 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-from django.views.generic.edit import CreateView
+from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 
-from .models import User
+from .models import Developer
 from .forms import UserForm
 
 
@@ -43,3 +43,19 @@ class UserCreationView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'users/register.html'
     form_class = UserForm
     success_url = reverse_lazy('tasks:task')
+
+
+class DeveloperSearchView(LoginRequiredMixin, ListView):
+    login_url = 'users:login'
+    template_name = 'users/search.html'
+
+    def get_queryset(self):
+        return Developer.objects.filter(user__username__icontains=self.query())
+
+    def query(self):
+        return self.request.GET.get('q')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.query()
+        return context

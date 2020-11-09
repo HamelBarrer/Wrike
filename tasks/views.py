@@ -1,9 +1,7 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import View, ListView, UpdateView, CreateView, DeleteView
-from django.views.generic.detail import DetailView
+from django.views.generic import View, UpdateView, CreateView, DeleteView, ListView
 
 from users.models import Developer
 
@@ -16,6 +14,13 @@ from .forms import (
     TypeTaskForm,
     TaskForm,
 )
+
+
+class DeveloperListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_view_user'
+    template_name = 'index.html'
+    queryset = Developer.objects.all().order_by('-pk')
 
 
 class TypeTaskView(PermissionRequiredMixin, LoginRequiredMixin, View):
@@ -64,13 +69,6 @@ class TypeTaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView
     success_url = reverse_lazy('tasks:type_task')
 
 
-class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
-    login_url = 'users:login'
-    permission_required = 'tasks.can_view_user'
-    template_name = 'index.html'
-    queryset = Developer.objects.all().order_by('-pk')
-
-
 class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     login_url = 'users:login'
     permission_required = 'tasks.can_add_user'
@@ -96,19 +94,3 @@ class TaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     form_class = TaskForm
     model = Task
     success_url = reverse_lazy('tasks:task')
-
-
-class DeveloperSearchView(LoginRequiredMixin, ListView):
-    login_url = 'users:login'
-    template_name = 'tasks/search.html'
-
-    def get_queryset(self):
-        return Developer.objects.filter(user__username__icontains=self.query())
-
-    def query(self):
-        return self.request.GET.get('q')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['query'] = self.query()
-        return context

@@ -2,6 +2,6 @@
     <img src="{{ developer.user.avatar.url }}" class="img-fluid" alt="">
     <h2 class="text-title text-center mt-2">{{ developer.user }}</h2> 
     <div class="row">
-        <a href="#" class="btn btn-success btn-block">Ver mas...</a>
+        <a href="{% url 'dates:date' developer.pk %}" class="btn btn-success btn-block">Ver mas...</a>
     </div>
 </div>
