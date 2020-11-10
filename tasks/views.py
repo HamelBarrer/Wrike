@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic import View, UpdateView, CreateView, DeleteView, ListView
 
 from users.models import Developer
+from projects.models import Project
 
 from .models import (
     Activities,
@@ -79,17 +80,17 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.all().order_by('-pk')
 
 
-def task_create(request):
-    template_name = 'tasks/add_task.html'
-    form_class = TaskForm(request.POST)
+# def task_create(request):
+#     template_name = 'tasks/add_task.html'
+#     form_class = TaskForm(request.POST)
 
-    if request.method == 'POST' and form_class.is_valid():
-        form_class.save()
-        return redirect('tasks:task')
+#     if request.method == 'POST' and form_class.is_valid():
+#         form_class.save()
+#         return redirect('tasks:task')
 
-    return render(request, template_name, {
-        'form': form_class,
-    })
+#     return render(request, template_name, {
+#         'form': form_class,
+#     })
 
 
 def activities_create(request):
@@ -104,13 +105,16 @@ def activities_create(request):
 
     return JsonResponse({'error': ''}, status=400)
 
-# class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
-#     login_url = 'users:login'
-#     permission_required = 'tasks.can_add_user'
-#     template_name = 'tasks/add_task.html'
-#     form_class = TaskForm
-#     model = Task
-#     success_url = reverse_lazy('tasks:task')
+class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_add_user'
+    template_name = 'tasks/add_task.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:task')
+
+    def get_queryset(self):
+        return Project.objects.all().exists()
 
 
 class TaskUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):

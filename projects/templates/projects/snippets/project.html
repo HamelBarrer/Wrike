@@ -1,6 +1,13 @@
-<div class="shadow p-3 mb-5 bg-white rounded">
-    <h2 class="text-title text-center mt-2">{{ project.name }}</h2> 
-    <div class="row">
-        <a href="#" class="btn btn-success btn-block">Ver mas...</a>
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title text-center mt-2">{{ projects.name }}</h2>
+        <div class="row">
+            <div class="col-sm-12 col-md-10">
+                <a href="{% url 'tasks:add_task' %}" class="btn btn-success">Agregar Tarea</a>
+            </div>
+            <div class="col-sm-12 col-md-2">
+                <a href="{% url 'projects:update_project' projects.slug %}" class="btn btn-danger">Editar</a>
+            </div>
+        </div>
     </div>
 </div>

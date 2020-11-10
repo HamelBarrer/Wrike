@@ -1,3 +1,7 @@
+from django.db.models import Count
+
+from projects.models import Project
+from users.models import Developer
 from django import forms
 from django.forms import ModelForm
 
@@ -26,6 +30,8 @@ class TypeTaskForm(ModelForm):
 
 
 class TaskForm(ModelForm):
+    developer = forms.ModelChoiceField(queryset=Task.objects.filter(developer=))
+
     class Meta:
         model = Task
         fields = (

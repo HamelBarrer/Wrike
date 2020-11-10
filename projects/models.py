@@ -3,13 +3,16 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
+from users.models import Developer
+
 from tasks.models import Task
 
 
 class Project(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    developer = models.ManyToManyField(Developer)
     state = models.BooleanField(default=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
     slug = models.SlugField(max_length=50, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
