@@ -1,4 +1,6 @@
-<form method="POST">
+{% url 'tasks:add_task' as add_task %}
+
+<form method="POST" id="data">
     {% csrf_token %}
     {% for field in form %}
         <div class="mb-3">
@@ -6,7 +8,7 @@
             {{ field }}
         </div>
     {% endfor %}
-    <div class="mb-3">
+    <div class="my-3">
         <button type="submit" class="btn btn-success btn-block">{{ message }}</button>
     </div>
 </form>

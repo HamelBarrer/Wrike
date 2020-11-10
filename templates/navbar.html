@@ -3,6 +3,9 @@
 {% url 'users:logout' as logout %}
 {% url 'users:register' as register %}
 
+<!-- Urls for the app of projects -->
+{% url 'projects:project' as project %}
+
 <!-- Urls for the app of type_task -->
 {% url 'tasks:type_task' as type_task %}
 
@@ -35,9 +38,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == task %}active{% endif %}" href="{{ task }}">
+                            <a class="nav-link {% if request.path == project %}active{% endif %}" href="{{ project }}">
                                 <i class="fas fa-tasks"></i>
-                                Tareas
+                                Projectos
                             </a>
                         </li>
                     {% endif %}

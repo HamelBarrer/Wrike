@@ -17,10 +17,18 @@ class TypeTask(models.Model):
         return self.name
 
 
+class Activities(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Task(models.Model):
     developer = models.ManyToManyField(Developer)
     type_task = models.ForeignKey(TypeTask, on_delete=models.CASCADE)
     task = models.CharField(max_length=50)
+    activities = models.ManyToManyField(Activities, through='ActivitiesTasks')
     description = models.TextField()
     state = models.BooleanField(default=True)
     slug = models.SlugField(max_length=60, unique=True)
@@ -31,9 +39,11 @@ class Task(models.Model):
         return self.slug
 
 
-class Activities(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    task = models.ManyToManyField(Task)
+class ActivitiesTasks(models.Model):
+    activities = models.ForeignKey(Activities, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 @receiver(pre_save, sender=TypeTask)

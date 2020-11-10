@@ -24,7 +24,7 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, f'Bienvenido {user.username}')
-            return redirect('tasks:task')
+            return redirect('tasks:developer_task')
         else:
             messages.error(request, 'Usuario o contraseña invalidos')
 
@@ -42,7 +42,7 @@ class UserCreationView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     permission_required = 'users.can_add_user'
     template_name = 'users/register.html'
     form_class = UserForm
-    success_url = reverse_lazy('tasks:task')
+    success_url = reverse_lazy('tasks:developer_task')
 
 
 class DeveloperSearchView(LoginRequiredMixin, ListView):

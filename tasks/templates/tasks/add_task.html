@@ -1,13 +1,5 @@
 {% extends 'base.html' %}
 
-{% block script %}
-<script>
-    function clonar(){
-        $("#ia").clone().appendTo("#list");
-    }
-</script>
-{% endblock %}
-
 {% block content %}
 <div class="card mt-2">
     <div class="card-body">
@@ -17,15 +9,6 @@
 </div>
 {% endblock %}
 
-{% block scrip %}
-<script>
-    $(document).ready(function () {
-        $(".card-body").append(
-            "<input id='ia' type='text' placeholder='prueba'/>" +
-            "<br/>" +
-            "<button type='button' onclick='clonar();'>Agregar</button>" +
-            "<div id='list'></div>"
-        );
-    });
-</script>
+{% block script %}
+
 {% endblock %}

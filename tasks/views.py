@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from django.core import serializers
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -6,6 +8,7 @@ from django.views.generic import View, UpdateView, CreateView, DeleteView, ListV
 from users.models import Developer
 
 from .models import (
+    Activities,
     TypeTask,
     Task,
 )
@@ -76,13 +79,38 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.all().order_by('-pk')
 
 
-class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
-    login_url = 'users:login'
-    permission_required = 'tasks.can_add_user'
+def task_create(request):
     template_name = 'tasks/add_task.html'
-    form_class = TaskForm
-    model = Task
-    success_url = reverse_lazy('tasks:task')
+    form_class = TaskForm(request.POST)
+
+    if request.method == 'POST' and form_class.is_valid():
+        form_class.save()
+        return redirect('tasks:task')
+
+    return render(request, template_name, {
+        'form': form_class,
+    })
+
+
+def activities_create(request):
+    if request.is_ajax and request.method == 'POST':
+        form = Activities(request.POST)
+        if form.is_valid():
+            instance = form.save()
+            serializer = serializers.serialize('json', [instance])
+            return JsonResponse({'instance': serializer}, status=200)
+        else:
+            return JsonResponse({'error': form.errors}, status=400)
+
+    return JsonResponse({'error': ''}, status=400)
+
+# class TaskCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+#     login_url = 'users:login'
+#     permission_required = 'tasks.can_add_user'
+#     template_name = 'tasks/add_task.html'
+#     form_class = TaskForm
+#     model = Task
+#     success_url = reverse_lazy('tasks:task')
 
 
 class TaskUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):

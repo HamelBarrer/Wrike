@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from .models import (
     TypeTask,
     Task,
+    Activities,
 )
 
 
@@ -28,7 +29,7 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
-            'developer', 'type_task', 'task', 'description', 'state',
+            'developer', 'type_task', 'task','description', 'state',
         )
         labels = {
             'developer': 'Desarrollador',
@@ -43,17 +44,30 @@ class TaskForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['developer'].widget.attrs.update({
+            'id': 'developer_id',
             'class': 'form-control',
         })
         self.fields['type_task'].widget.attrs.update({
+            'id': 'type_task_id',
             'class': 'form-control',
         })
         self.fields['task'].widget.attrs.update({
+            'id': 'task_id',
             'class': 'form-control',
         })
         self.fields['description'].widget.attrs.update({
+            'id': 'description_id',
             'class': 'form-control',
         })
         self.fields['state'].widget.attrs.update({
+            'id': 'state_id',
             'class': 'form-check-input',
         })
+
+
+class ActivitiesForm(ModelForm):
+    class Meta:
+        model = Activities
+        fields = (
+            'name',
+        )
