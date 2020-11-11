@@ -1,5 +1,3 @@
-{% url 'tasks:add_task' as add_task %}
-
 <form method="POST" id="data">
     {% csrf_token %}
     {% for field in form %}
@@ -8,7 +6,11 @@
             {{ field }}
         </div>
     {% endfor %}
-    <div class="my-3">
-        <button type="submit" class="btn btn-success btn-block">{{ message }}</button>
-    </div>
+    <h3>Tareas</h3>
+    {% for form in other_form %}
+        {{ form }} <br />
+    {% endfor %}
+
+    {{ other_form.managent_form }}
+    <br><button type="submit">Agregar</button>
 </form>

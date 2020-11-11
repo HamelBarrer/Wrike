@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <h2 class="text-title text-center">Crear Tipo de Tarea</h2>
     <div class="card">
-        <div class="card-body">
-            {% include 'tasks/snippets/type_form.html' %}
+        <div class="card-header">
+            Create collection
         </div>
-    </div>
-    <div class="card mt-2">
         <div class="card-body">
-            {% include 'tasks/snippets/tables.html' %}
+             {% crispy form %}
         </div>
     </div>
 {% endblock %}
