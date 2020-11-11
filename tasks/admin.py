@@ -15,4 +15,3 @@ class TaskAdmin(admin.ModelAdmin):
 
 admin.site.register(TypeTask)
 admin.site.register(Task, TaskAdmin)
-admin.site.register(Activities)

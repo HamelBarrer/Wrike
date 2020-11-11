@@ -98,14 +98,21 @@ class TaskCreateView(CreateView):
         return reverse_lazy('projects:project')
 
 
-class TaskUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
-    permission_required = 'tasks.can_change_user'
-    template_name = 'tasks/update_task.html'
-    form_class = TaskForm
+class TaskUpdateView(UpdateView):
     model = Task
-    success_url = reverse_lazy('tasks:task')
+    form_class = TaskForm
+    template_name = 'tasks/add_task.html'
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['name'] = TaskFormSet(self.request.POST, instance=self.object)
+        else:
+            data['name'] = TaskFormSet(instance=self.object)
+        return data
+
+    def get_success_url(self):
+        return reverse_lazy('mycollections:collection_detail')
 
 class TaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     login_url = 'users:login'

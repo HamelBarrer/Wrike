@@ -16,6 +16,10 @@ class TypeTask(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Tipo tarea'
+        verbose_name_plural = 'Tipo tareas'
+
 
 class Task(models.Model):
     developer = models.ManyToManyField(Developer)
@@ -29,6 +33,10 @@ class Task(models.Model):
 
     def __str__(self):
         return self.slug
+
+    class Meta:
+        verbose_name = 'Tarea'
+        verbose_name_plural = 'Tareas'
 
 
 class Activities(models.Model):
