@@ -5,13 +5,16 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
+from projects.models import Project
+
 from users.models import Developer
 
 
 class TypeTask(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name='Nombre')
     slug = models.SlugField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Fecha de Creacion')
 
     def __str__(self):
         return self.name
@@ -22,14 +25,19 @@ class TypeTask(models.Model):
 
 
 class Task(models.Model):
-    developer = models.ManyToManyField(Developer)
-    type_task = models.ForeignKey(TypeTask, on_delete=models.CASCADE)
-    task = models.CharField(max_length=50)
-    description = models.TextField()
-    state = models.BooleanField(default=True)
+    developer = models.ManyToManyField(Developer, verbose_name='Desarrollador')
+    type_task = models.ForeignKey(
+        TypeTask, on_delete=models.CASCADE, verbose_name='Tipo Tarea')
+    task = models.CharField(max_length=50, verbose_name='Tarea')
+    description = models.TextField(verbose_name='Descripcion')
+    state = models.BooleanField(default=True, verbose_name='Estado')
     slug = models.SlugField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, verbose_name='Proyecto')
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Fecha de Creacion')
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name='Fecha de Actualizacion')
 
     def __str__(self):
         return self.slug
@@ -40,12 +48,17 @@ class Task(models.Model):
 
 
 class Activities(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
+    process = models.BooleanField(default=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Actividad'
+        verbose_name_plural = 'Actividades'
 
 
 @receiver(pre_save, sender=TypeTask)

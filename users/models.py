@@ -12,12 +12,12 @@ class User(AbstractUser):
     )
 
     avatar = models.ImageField(default='avatar.png', upload_to='users/')
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, verbose_name='Rol')
 
 
 class Administrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    creted_at = models.DateTimeField(auto_now_add=True)
+    creted_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
 
     def __str__(self):
         return self.user.username
@@ -25,7 +25,7 @@ class Administrator(models.Model):
 
 class Developer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
 
     def __str__(self):
         return self.user.username

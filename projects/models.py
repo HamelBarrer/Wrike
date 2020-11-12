@@ -5,20 +5,31 @@ from django.db.models.signals import pre_save
 
 from users.models import Developer
 
-from tasks.models import Task
-
 
 class Project(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    developer = models.ManyToManyField(Developer)
-    state = models.BooleanField(default=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    STATUS_CHOICES = (
+        ('approver', 'Aprovado'),
+        ('process', 'En Proceso'),
+        ('inactive', 'Inactivo'),
+    )
+
+    name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
+    developer = models.ManyToManyField(Developer, verbose_name='Desarrollador')
+    visibility = models.BooleanField(default=False, verbose_name='Visibilidad')
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, verbose_name='Estatus')
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Fecha de Creacion')
+    update_at = models.DateTimeField(
+        auto_now=True, verbose_name='Fecha de Actualizacion')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Proyecto'
+        verbose_name_plural = 'Proyectos'
 
 
 @receiver(pre_save, sender=Project)

@@ -11,21 +11,29 @@ from users.models import (
 
 
 class ProfileAdministrator(models.Model):
-    user = models.OneToOneField(Administrator, on_delete=models.CASCADE)
+    user = models.OneToOneField(Administrator, on_delete=models.CASCADE, verbose_name='Usuario')
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
 
     def __str__(self):
         return self.slug
+
+    class Meta:
+        verbose_name = 'Perfil Administrador'
+        verbose_name_plural = 'Perfil de Administradores'
 
 
 class ProfileDeveloper(models.Model):
-    user = models.OneToOneField(Developer, on_delete=models.CASCADE)
+    user = models.OneToOneField(Developer, on_delete=models.CASCADE, verbose_name='Usuario')
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
 
     def __str__(self):
         return self.slug
+
+    class Meta:
+        verbose_name = 'Perfil Desarrollador'
+        verbose_name_plural = 'Perfil de Desarrolladores'
 
 
 @receiver(post_save, sender=Administrator)

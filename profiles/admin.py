@@ -5,5 +5,14 @@ from .models import (
     ProfileDeveloper,
 )
 
-admin.site.register(ProfileAdministrator)
-admin.site.register(ProfileDeveloper)
+
+@admin.register(ProfileAdministrator)
+class ProfileAdminCustom(admin.ModelAdmin):
+    fields = ('user',)
+    list_display = ('__str__', 'created_at')
+
+
+@admin.register(ProfileDeveloper)
+class ProfileDevelopCustom(admin.ModelAdmin):
+    fields = ('user',)
+    list_display = ('__str__', 'created_at')
