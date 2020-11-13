@@ -5,7 +5,6 @@ from django.views.generic import View, UpdateView, CreateView, DeleteView, ListV
 from django.db import transaction
 
 from users.models import Developer
-from projects.models import Project
 
 from .models import (
     Activities,
@@ -80,22 +79,50 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.all().order_by('-pk')
 
 
-class TaskCreateView(CreateView):
-    model = Task
+# class TaskCreateView(CreateView):
+#     model = Task
+#     template_name = 'tasks/add_task.html'
+#     form_class = TaskForm
+#     success_url = reverse_lazy('projects:project')
+
+#     def get_context_data(self, **kwargs):
+#         data = super().get_context_data(**kwargs)
+#         if self.request.POST:
+#             data['activities'] = TaskFormSet(self.request.POST)
+#         else:
+#             data['activities'] = TaskFormSet()
+
+#         return data
+
+#     def form_valid(self, form):
+#         context = self.get_context_data()
+#         activities = context['activities']
+#         with transaction.atomic():
+#             self.object = form.save()
+
+#             if activities.is_valid():
+#                 activities.instance = self.object
+#                 activities.save()
+
+#         return super().form_valid(form)
+def create_task(request):
     template_name = 'tasks/add_task.html'
-    form_class = TaskForm
-    success_url = None
+    form = TaskForm(request.POST)
+    formset = TaskFormSet()
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['name'] = TaskFormSet(self.request.POST)
-        else:
-            data['name'] = TaskFormSet()
-        return data
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        with transaction.atomic():
+            formset = TaskFormSet(request.POST)
+            if formset.is_valid():
+                formset.save()
 
-    def get_success_url(self):
-        return reverse_lazy('projects:project')
+        return redirect('projects:project')
+
+    return render(request, template_name, {
+        'form': form,
+        'formset': formset,
+    })
 
 
 class TaskUpdateView(UpdateView):
@@ -111,8 +138,12 @@ class TaskUpdateView(UpdateView):
             data['name'] = TaskFormSet(instance=self.object)
         return data
 
+    def form_valid(self, form):
+        self.object = form.save()
+
     def get_success_url(self):
         return reverse_lazy('mycollections:collection_detail')
+
 
 class TaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
     login_url = 'users:login'

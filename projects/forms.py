@@ -1,13 +1,13 @@
-from django import forms
 from django.forms import ModelForm
+from django.forms.models import inlineformset_factory
 
-from users.models import Developer, User
+from tasks.forms import Task
 
 from .models import Project
 
 
 class ProjectForm(ModelForm):
-    
+
     class Meta:
         model = Project
         fields = (
@@ -30,3 +30,17 @@ class ProjectForm(ModelForm):
         self.fields['visibility'].widget.attrs.update({
             'class': 'form-check-input',
         })
+
+
+class TaskForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = (
+            'type_task', 'task',
+        )
+
+
+ProjectFormSet = inlineformset_factory(
+    Project, Task, form=TaskForm,
+    fields=['type_task', 'task'], extra=1, can_delete=True
+)
