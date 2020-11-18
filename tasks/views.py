@@ -19,9 +19,7 @@ from .forms import (
 )
 
 
-class DeveloperListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
-    login_url = 'users:login'
-    permission_required = 'tasks.can_view_user'
+class DeveloperListView(ListView):
     template_name = 'index.html'
     queryset = Developer.objects.all().order_by('-pk')
 
@@ -107,17 +105,22 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 #         return super().form_valid(form)
 def create_task(request):
     template_name = 'tasks/add_task.html'
-    form = TaskForm(request.POST)
+    form = TaskForm()
     formset = TaskFormSet()
 
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        with transaction.atomic():
-            formset = TaskFormSet(request.POST)
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        formset = TaskFormSet(request.POST)
+
+        if form.is_valid():
+            task = form.save(commit=False)
+            formset = TaskFormSet(request.POST, instance=task)
+
             if formset.is_valid():
+                task.save()
                 formset.save()
 
-        return redirect('projects:project')
+                return redirect('projects:project')
 
     return render(request, template_name, {
         'form': form,

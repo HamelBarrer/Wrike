@@ -43,6 +43,12 @@
                                 Projectos
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == task %}active{% endif %}" href="{{ task }}">
+                                <i class="fas fa-tasks"></i>
+                                Tareas
+                            </a>
+                        </li>
                     {% endif %}
                     {% if perms.users %}
                         <li class="nav-item">

@@ -30,13 +30,11 @@ class TypeTaskForm(ModelForm):
 
 
 class TaskForm(ModelForm):
-    developers = Project.objects.values_list('developer__user', flat=True)
-    developer = forms.ModelChoiceField(Task.objects.filter(developer__in=developers))
 
     class Meta:
         model = Task
         fields = (
-            'developer', 'description', 'type_task', 'task','state', 'project', 'slug'
+            'developer', 'description', 'type_task', 'task', 'state', 'project'
         )
 
 

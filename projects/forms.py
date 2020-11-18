@@ -11,7 +11,7 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
-            'developer', 'name', 'visibility',
+            'developer', 'name', 'visibility', 'status'
         )
         labels = {
             'developer': 'Desarrollador',
@@ -42,5 +42,5 @@ class TaskForm(ModelForm):
 
 ProjectFormSet = inlineformset_factory(
     Project, Task, form=TaskForm,
-    fields=['type_task', 'task'], extra=1, can_delete=True
+    fields=['type_task', 'task'], extra=1, can_delete=True,
 )

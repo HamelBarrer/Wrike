@@ -40,7 +40,7 @@ class Task(models.Model):
         auto_now=True, verbose_name='Fecha de Actualizacion')
 
     def __str__(self):
-        return self.slug
+        return self.task
 
     class Meta:
         verbose_name = 'Tarea'
@@ -48,7 +48,7 @@ class Task(models.Model):
 
 
 class Activities(models.Model):
-    name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
+    name = models.CharField(max_length=50, verbose_name='Nombre')
     process = models.BooleanField(default=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,10 +1,36 @@
-<form method="POST">
+<form action="" method="post">
     {% csrf_token %}
-    {% for field in form %}
-        <div class="mb-3">
-            {{ field.label_tag }}
-            {{ field }}
-        </div>
-    {% endfor %}
+    {{ form.as_p }}
+
+    <table class="table">
+        {{ formset.management_form }}
+
+        {% for form in formset %}
+            {% if forloop.first %}
+                <thead>
+                    <tr>
+                        {% for field in form.visible_fields %}
+                            <th>{{ field.label|capfirst }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+            {% endif %}
+            <tr class="formset_row">
+                {% for field in form.visible_fields %}
+                    <td>
+                        {# Include the hidden fields in the form #}
+                        {% if forloop.first %}
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        {% endif %}
+                        {{ field.errors.as_ul }}
+                        {{ field }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
     <button type="submit" class="btn btn-success">{{ message }}</button>
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
 </form>
