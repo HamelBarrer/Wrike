@@ -1,0 +1,23 @@
+<canvas id="{{ project }}" width="400" height="400"></canvas>
+
+<script>
+    const {{ project }} = document.getElementById('{{ project }}').getContext('2d');
+    var a  = new Chart({{ project }}, {
+        type: 'pie',
+        data: {
+            labels: ['{{ project }}',],
+            datasets: [{
+                data: [12, 19, 3, 5, 2, 3],
+            }],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

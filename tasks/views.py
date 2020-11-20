@@ -19,11 +19,6 @@ from .forms import (
 )
 
 
-class DeveloperListView(ListView):
-    template_name = 'index.html'
-    queryset = Developer.objects.all().order_by('-pk')
-
-
 class TypeTaskView(PermissionRequiredMixin, LoginRequiredMixin, View):
     login_url = 'users:login'
     permission_required = 'type_task.can_add_type_task'

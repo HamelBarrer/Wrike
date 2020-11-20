@@ -17,7 +17,7 @@ class Project(models.Model):
     developer = models.ManyToManyField(Developer, verbose_name='Desarrollador')
     visibility = models.BooleanField(default=False, verbose_name='Visibilidad')
     status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, verbose_name='Estatus')
+        max_length=10, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     slug = models.SlugField(max_length=50, unique=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha de Creacion')

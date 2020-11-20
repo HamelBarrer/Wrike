@@ -19,8 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('tasks.urls')),
-    path('projectos/', include('projects.urls')),
+    path('', include('projects.urls')),
+    path('tareas', include('tasks.urls')),
     path('datos/', include('dates.urls')),
     path('acceder/', include('users.urls')),
     path('admin/', admin.site.urls),

@@ -1,0 +1,35 @@
+<!-- Urls for the app of user -->
+{% url 'users:login' as login %}
+{% url 'users:logout' as logout %}
+{% url 'users:register' as register %}
+
+<!-- Urls for the app of projects -->
+{% url 'projects:home' as home %}
+{% url 'projects:project' as project %}
+
+<!-- Urls for the app of type_task -->
+{% url 'tasks:type_task' as type_task %}
+
+<!-- Urls for the app of task -->
+{% url 'tasks:task' as task %}
+{% url 'tasks:developer_task' as developer_task %}
+{% url 'tasks:add_task' as add_task %}
+
+<ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+        <div class="user-view">
+            <a href="#user"><img class="circle" src="{{ request.user.avatar.url }}"></a>
+            <a href="#name"><span class="name">{{ request.user.username }}</span></a>
+        </div>
+    </li>
+    <li class="{% if request.path == home %}active{% endif %}">
+        <a class="waves-effect" href="{{ home }}"><i class="material-icons">bar_chart</i>Inicio</a>
+    </li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li>
+        <a class="waves-effect" href="#!"><i class="material-icons">cloud</i>Third Link With Waves</a>
+    </li>
+</ul>
+<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% include 'users/snippets/search.html' %}
     <div class="row">
-        {% include 'tasks/snippets/developers.html' %}
+        {% include 'projects/snippets/card-project.html' %}
+    </div>
+    <div class="row">
+        {% include 'projects/graphics.html' %}
     </div>
 {% endblock %}

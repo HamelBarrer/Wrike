@@ -10,7 +10,6 @@ urlpatterns = [
     path('eliminar_tipo_tarea/<slug>', views.TaskDeleteView.as_view(), name='delete_type_task'),
 
     # Urls for the views of task
-    path('', views.DeveloperListView.as_view(), name='developer_task'),
     path('tareas/', views.TaskListView.as_view(), name='task'),
     path('crear_tarea/', views.create_task, name='add_task'),
     path('actualizar_tarea/<slug>', views.TaskUpdateView.as_view(), name='update_task'),
