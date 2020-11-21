@@ -23,13 +23,28 @@
         </div>
     </li>
     <li class="{% if request.path == home %}active{% endif %}">
-        <a class="waves-effect" href="{{ home }}"><i class="material-icons">bar_chart</i>Inicio</a>
+        <a class="waves-effect" href="{{ home }}"><i class="material-icons">dashboard</i>Inicio</a>
+    </li>
+    <li class="{% if request.path == project%}active{% endif %}">
+        <a class="waves-effect" href="{{ project}}"><i class="material-icons">book</i>Proyecto</a>
+    </li>
+    <li class="{% if request.path == type_task %}active{% endif %}">
+        <a class="waves-effect" href="{{ type_task }}"><i class="material-icons">chrome_reader_mode</i>Tipo de tarea</a>
+    </li>
+    <li class="{% if request.path == task %}active{% endif %}">
+        <a class="waves-effect" href="{{ task }}"><i class="material-icons">description</i>Tarea</a>
+    </li>
+    <li class="{% if request.path == register %}active{% endif %}">
+        <a class="waves-effect" href="{{ register }}"><i class="material-icons">person_add_alt_1</i>Crear Usuarios</a>
     </li>
     <li>
         <div class="divider"></div>
     </li>
     <li>
-        <a class="waves-effect" href="#!"><i class="material-icons">cloud</i>Third Link With Waves</a>
+        <a class="waves-effect" href="#!"><i class="material-icons">person</i>Perfil</a>
+    </li>
+    <li class="{% if request.path == logout %}active{% endif %}">
+        <a class="waves-effect" href="{{ logout }}"><i class="material-icons">keyboard_tab</i>Cerrar Sesion</a>
     </li>
 </ul>
 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>

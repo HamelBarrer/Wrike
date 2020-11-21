@@ -1,5 +1,25 @@
-{% for projects in object_list %}
-    <div class="col-sm-12 col-md-4">
-        {% include 'projects/snippets/project.html' %}
-    </div>
-{% endfor %}
+<table class="highlight">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Desarrolladores</th>
+            <th>Estado</th>
+            <th>Fecha de Creacion</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for projects in object_list %}
+            <tr>
+                <td>{{ projects.name }}</td>
+                <td>{{ projects.developer__count }}</td>
+                <td>{{ projects.status }}</td>
+                <td>{{ projects.created_at }}</td>
+                <td>
+                    <a href="{% url 'projects:update_project' projects.slug %}" class="btn btn-danger">Editar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

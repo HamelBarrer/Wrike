@@ -7,4 +7,11 @@
     <div class="row">
         {% include 'projects/graphics.html' %}
     </div>
+    {% if is_paginated %}
+        <div class="container">
+            <div class="center">
+                {% include 'projects/paginator.html' %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

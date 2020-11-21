@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls.base import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView
 from django.db import transaction
+from django.db.models import Count
 
 from users.models import Developer
 
@@ -13,41 +14,13 @@ from .forms import ProjectForm, ProjectFormSet
 
 class ProjectTemplateView(ListView):
     template_name = 'index.html'
-    queryset = Project.objects.all().order_by('-pk')
-
-    def count_developer(self):
-        projects = Project.objects.all()
-        for project in projects:
-            developers = project.developer.count()
-
-            return developers
-
-    def count_task(self):
-        projects = Project.objects.all()
-        for project in projects:
-            tasks = project.task_set.count()
-            
-            return tasks
-
-    def count_activities(self):
-        tasks = Task.objects.all()
-        for task in tasks:
-            activities = task.activities_set.count()
-            
-            return activities
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['developers'] = self.count_developer()
-        context['tasks'] = self.count_task()
-        context['activities'] = self.count_activities()
-
-        return context
+    paginate_by = 6
+    queryset = Project.objects.annotate(Count('developer'))
 
 
 class ProjectListView(ListView):
     template_name = 'projects/project.html'
-    queryset = Project.objects.all().order_by('-pk')
+    queryset = Project.objects.annotate(Count('developer'))
 
 
 class ProjectCreateView(CreateView):

@@ -1,8 +1,8 @@
-<canvas id="{{ project }}" width="400" height="400"></canvas>
+<canvas id="{{ project.slug }}" width="400" height="400"></canvas>
 
 <script>
-    const {{ project }} = document.getElementById('{{ project }}').getContext('2d');
-    var a  = new Chart({{ project }}, {
+    const {{ project.slug }} = document.getElementById('{{ project.slug }}').getContext('2d');
+    var myChart  = new Chart({{ project.slug }}, {
         type: 'pie',
         data: {
             labels: ['{{ project }}',],
