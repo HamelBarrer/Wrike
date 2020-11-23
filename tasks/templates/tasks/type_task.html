@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <a href="{% url 'tasks:add_type_task' %}">Crear tipo de tarea</a>
+                <h2 class="center">Tipo de tareas</h2>
+                <table class="highlight centered">
+                    <thead>
+                        <tr>
+                            <th>Tipo de tarea</th>
+                            <th>Estado</th>
+                            <th>Fecha de creacion</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for type_task in object_list %}
+                            <tr>
+                                <td>{{ type_task.name }}</td>
+                                <td>{{ type_task.status|yesno:'Activo,Inactivo' }}</td>
+                                <td>{{ type_task.created_at }}</td>
+                                <td>
+                                    <a href="{% url 'tasks:update_type_task' type_task.slug %}"
+                                        class="btn btn-danger">Editar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

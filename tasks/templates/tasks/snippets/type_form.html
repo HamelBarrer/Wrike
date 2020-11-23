@@ -1,12 +1,19 @@
 <form method="POST">
     {% csrf_token %}
-    {% for field in form %}
-        <div class="mb-3">
-            {{ field.label_tag }}
-            {{ field }}
+    <div class="row">
+        <div class="input-field col s6">
+            <i class="material-icons prefix">chrome_reader_mode</i>
+            {{ form.name }}
+            <label for="icon_prefix">{{ form.name.label }}</label>
         </div>
-    {% endfor %}
-    <div class="mb-3">
-        <button type="submit" class="btn btn-success btn-block">Crear Tarea</button>
+        <p class="input-field col s6">
+            <label>
+                {{ form.status }}
+                <span>{{ form.status.label }}</span>
+            </label>
+        </p>
     </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">{{ message }}
+        <i class="material-icons right">send</i>
+    </button>
 </form>

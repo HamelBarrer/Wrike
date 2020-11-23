@@ -5,9 +5,9 @@ from . import views
 app_name = 'tasks'
 urlpatterns = [
     # Urls for the views of type_task
-    path('tipo_tarea', views.TypeTaskView.as_view(), name='type_task'),
-    path('actualizar_tipo_tarea/<slug>', views.TaskUpdateView.as_view(), name='update_type_task'),
-    path('eliminar_tipo_tarea/<slug>', views.TaskDeleteView.as_view(), name='delete_type_task'),
+    path('tipo_tarea/', views.TypeTaskListView.as_view(), name='type_task'),
+    path('tipo_tarea/crear/', views.TypeTaskCreateView.as_view(), name='add_type_task'),
+    path('tipo_tarea/actualizar/<slug>/', views.TypeTaskUpdateView.as_view(), name='update_type_task'),
 
     # Urls for the views of task
     path('tareas/', views.TaskListView.as_view(), name='task'),

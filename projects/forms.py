@@ -11,24 +11,17 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
-            'developer', 'name', 'visibility', 'status'
+            'developer', 'name',
         )
         labels = {
             'developer': 'Desarrollador',
             'name': 'Nombre de Proyecto',
-            'visibility': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['developer'].widget.attrs.update({
-            'class': 'form-control',
-        })
         self.fields['name'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['visibility'].widget.attrs.update({
-            'class': 'form-check-input',
+            'id': 'icon_name',
         })
 
 

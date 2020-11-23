@@ -16,10 +16,11 @@ class TypeTaskForm(ModelForm):
     class Meta:
         model = TypeTask
         fields = (
-            'name',
+            'name', 'status',
         )
         labels = {
-            'name': 'Nombre',
+            'name': 'Nombre del tipo del proyecto',
+            'status': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):

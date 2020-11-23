@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <a href="{% url 'users:register' %}">crear usuario</a>
+                <h2 class="center">Usuarios</h2>
+                <table class="highlight centered">
+                    <thead>
+                        <tr>
+                            <th>Nombre de Usuario</th>
+                            <th>Correo</th>
+                            <th>Estado</th>
+                            <th>Rol</th>
+                            <th>Fecha de Creacion</th>
+                            <th>Ultimo inicio de sesion</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in object_list %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.is_active|yesno:'Activo,Inactivo' }}</td>
+                                <td>{{ user.role }}</td>
+                                <td>{{ user.date_joined }}</td>
+                                <td>{{ user.last_login }}</td>
+                                <td>
+                                    <a href="{% url 'users:update' user.pk %}" class="btn waves-effect waves-light">editar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

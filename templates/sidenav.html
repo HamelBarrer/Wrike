@@ -1,7 +1,7 @@
 <!-- Urls for the app of user -->
 {% url 'users:login' as login %}
 {% url 'users:logout' as logout %}
-{% url 'users:register' as register %}
+{% url 'users:user' as user %}
 
 <!-- Urls for the app of projects -->
 {% url 'projects:home' as home %}
@@ -34,8 +34,8 @@
     <li class="{% if request.path == task %}active{% endif %}">
         <a class="waves-effect" href="{{ task }}"><i class="material-icons">description</i>Tarea</a>
     </li>
-    <li class="{% if request.path == register %}active{% endif %}">
-        <a class="waves-effect" href="{{ register }}"><i class="material-icons">person_add_alt_1</i>Crear Usuarios</a>
+    <li class="{% if request.path == user %}active{% endif %}">
+        <a class="waves-effect" href="{{ user }}"><i class="material-icons">person_add_alt_1</i>Usuarios</a>
     </li>
     <li>
         <div class="divider"></div>

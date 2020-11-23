@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="container">
+        <a href="{% url 'projects:add_project' %}">Crear Proyectos</a>
         <h2 class="center">Proyectos Creados</h2>
         {% include 'projects/snippets/projects.html' %}
     </div>

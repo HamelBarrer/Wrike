@@ -13,7 +13,7 @@ class TaskInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectCustom(admin.ModelAdmin):
-    fields = ('name', 'developer', 'status', 'visibility')
-    list_display = ('name', 'status', 'visibility', 'created_at', 'update_at')
-    list_filter = ('visibility', 'status')
+    fields = ('name', 'developer', 'status')
+    list_display = ('name', 'status', 'created_at', 'update_at')
+    list_filter = ('status',)
     inlines = (TaskInline,)

@@ -13,6 +13,7 @@ from users.models import Developer
 class TypeTask(models.Model):
     name = models.CharField(max_length=50, verbose_name='Nombre')
     slug = models.SlugField(max_length=60, unique=True)
+    status = models.BooleanField(default=True)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha de Creacion')
 

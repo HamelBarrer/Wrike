@@ -16,26 +16,20 @@ class UserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs.update({
-            'class': 'form-control',
+            'id': 'icon_firstName',
         })
         self.fields['last_name'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['avatar'].widget.attrs.update({
-            'class': 'form-file-input',
+            'id': 'icon_lastName',
         })
         self.fields['email'].widget.attrs.update({
-            'class': 'form-control',
+            'id': 'icon_email',
         })
         self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
+            'id': 'icon_username',
         })
         self.fields['password1'].widget.attrs.update({
-            'class': 'form-control',
+            'id': 'icon_password1',
         })
         self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['role'].widget.attrs.update({
-            'class': 'form-select',
+            'id': 'icon_password2',
         })

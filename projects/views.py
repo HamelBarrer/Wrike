@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls.base import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView
 from django.db import transaction
 from django.db.models import Count
@@ -12,18 +13,21 @@ from .models import Project
 from .forms import ProjectForm, ProjectFormSet
 
 
-class ProjectTemplateView(ListView):
+class ProjectTemplateView(LoginRequiredMixin, ListView):
+    login_url = 'users:login'
     template_name = 'index.html'
     paginate_by = 6
     queryset = Project.objects.annotate(Count('developer'))
 
 
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
+    login_url = 'users:login'
     template_name = 'projects/project.html'
     queryset = Project.objects.annotate(Count('developer'))
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
     template_name = 'projects/add_project.html'
     form_class = ProjectForm
     success_url = reverse_lazy('projects:project')

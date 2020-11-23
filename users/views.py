@@ -2,10 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 
-from .models import Developer
+from .models import Developer, User
 from .forms import UserForm
 
 
@@ -37,12 +37,26 @@ def logout_view(request):
     return redirect('users:login')
 
 
-class UserCreationView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class UserListView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
-    permission_required = 'users.can_add_user'
+    template_name = 'users/users.html'
+    queryset = User.objects.all().order_by('-pk')
+
+
+class UserCreationView(LoginRequiredMixin, CreateView):
+    login_url = 'users:login'
     template_name = 'users/register.html'
+    model = User
     form_class = UserForm
-    success_url = reverse_lazy('projects:home')
+    success_url = reverse_lazy('users:user')
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    template_name = 'users/update_user.html'
+    form_class = UserForm
+    model = User
+    success_url = reverse_lazy('users:user')
 
 
 class DeveloperSearchView(LoginRequiredMixin, ListView):

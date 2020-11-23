@@ -1,8 +1,19 @@
-<form action="" method="post">
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-
-    <table class="table">
+    <div class="input-field col s12">
+        <select multiple>
+            {% for developer in form.developer %}
+                <option value="{{ developer }}"></option>
+            {% endfor %}
+        </select>
+        <label>{{ form.developer.label }}</label>
+    </div>
+    <div class="input-field col s6">
+        <i class="material-icons prefix">article</i>
+        {{ form.name }}
+        <label for="icon_name">{{ form.name.label }}</label>
+    </div>
+    <table>
         {{ formset.management_form }}
 
         {% for form in formset %}
