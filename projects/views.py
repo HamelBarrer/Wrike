@@ -55,27 +55,48 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def update_project(request, slug):
-    project = Project.objects.get(slug=slug)
-    template_name = 'projects/update_project.html'
-    form = ProjectForm(instance=project)
-    formset = ProjectFormSet(instance=project)
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    template_name = 'projects/add_project.html'
+    form_class = ProjectForm
+    model = Project
+    success_url = reverse_lazy('projects:project')
 
-    if request.method == 'POST':
-        form = ProjectForm(request.POST, instance=project)
-        formset = ProjectFormSet(request.POST)
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['formset'] = ProjectFormSet(
+                self.request.POST, instance=self.object)
+        else:
+            data['formset'] = ProjectFormSet(instance=self.object)
 
-        if form.is_valid():
-            task = form.save(commit=False)
-            formset = ProjectFormSet(request.POST, instance=task)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+
+        with transaction.atomic():
+            self.object = form.save()
 
             if formset.is_valid():
-                task.save()
+                formset.instance = self.object
                 formset.save()
 
-                return redirect('projects:project')
+        return super().form_valid(form)
 
-    return render(request, template_name, {
-        'form': form,
+
+def update(request, pk):
+    # what you do here is get the id of the object you are trying to modify
+    applicants = Applicants.objects.object(pk=pk)
+
+    # once the object you want to modify is obtained, you instantiate the information in the form
+    formset = StatusForm(instance=applicants)
+    if request.method == 'POST':
+        formset = StatusForm(request.POST, instance=applicants)
+        if formset.is_valid():
+            formset.save()
+            return redirect('home')
+    return render(request, 'jobs/status.html', {
         'formset': formset,
     })

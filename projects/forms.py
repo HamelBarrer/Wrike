@@ -11,19 +11,13 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
-            'developer', 'name',
+            'developer', 'name', 'status'
         )
         labels = {
             'developer': 'Desarrollador',
             'name': 'Nombre de Proyecto',
+            'status': 'Estado',
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({
-            'id': 'icon_name',
-        })
-
 
 class TaskForm(ModelForm):
     class Meta:
