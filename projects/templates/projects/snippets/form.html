@@ -5,53 +5,12 @@
     {{ form|materializecss }}
     <h2>Tareas</h2>
     {{ formset.management_form }}
-    <div id="projects_data">
-        {% for form in formset %}
-            {{ form.type_task|materializecss }}
-            {{ form.task|materializecss }}
-        {% endfor %}
-        <br>
-    </div>
-    <button type="button" onclick="add_project();">AGREGAR</button>
+    {% for form in formset %}
+        <div id="projects_data">
+            {{ form|materializecss }}
+            <br>
+        </div>
+    {% endfor %}
     <button type="submit" class="btn btn-success">{{ message }}</button>
     <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card card-body">
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ formset }}
-                    <button type="submit"></button>
-                </form>
-            </div>
-        </div>
-    </div>
-
 </form>
-
-<script>
-    const add_project = () => {
-        const total_forms = document.querySelector('#id_task_set-TOTAL_FORMS');
-
-        let new_label_typa_task = document.createElement('label');
-        new_label_typa_task.innerHTML = 'Tipo Tarea:';
-
-        let new_input_type_task = document.querySelector('#id_task_set-0-type_task').cloneNode(true);
-
-        new_input_type_task.name = 'form-' + total_forms.value + '-type_task';
-        new_input_type_task.id = 'id_form-' + total_forms.value + '-type_task';
-
-        let new_label_task = document.createElement('label');
-        new_label_task.innerHTML = 'Tarea:';
-
-        let new_input_task = document.querySelector('#id_task_set-0-task').cloneNode(true);
-        new_input_task.name = 'form-' + total_forms.value + '-task';
-        new_input_task.id = 'id_form-' + total_forms.value + '-task';
-
-        document.querySelector('#projects_data').appendChild(new_label_typa_task);
-        document.querySelector('#projects_data').appendChild(new_input_type_task);
-        document.querySelector('#projects_data').appendChild(new_label_task);
-        document.querySelector('#projects_data').appendChild(new_input_task);
-    }
-</script>

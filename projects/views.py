@@ -84,19 +84,3 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
                 formset.save()
 
         return super().form_valid(form)
-
-
-def update(request, pk):
-    # what you do here is get the id of the object you are trying to modify
-    applicants = Applicants.objects.object(pk=pk)
-
-    # once the object you want to modify is obtained, you instantiate the information in the form
-    formset = StatusForm(instance=applicants)
-    if request.method == 'POST':
-        formset = StatusForm(request.POST, instance=applicants)
-        if formset.is_valid():
-            formset.save()
-            return redirect('home')
-    return render(request, 'jobs/status.html', {
-        'formset': formset,
-    })
