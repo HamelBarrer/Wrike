@@ -1,0 +1,29 @@
+<table id="example" class="hover center" style="width:100%">
+    <thead>
+        <tr>
+            <th>Proyectos</th>
+            <th>Tipo de tarea</th>
+            <th>Tarea</th>
+            <th>Cantidad actividades</th>
+            <th>Estado</th>
+            <th>Fecha de creacion</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for activities in object_list %}
+            <tr>
+                <td>{{ activities.project }}</td>
+                <td>{{ activities.type_task }}</td>
+                <td>{{ activities.task }}</td>
+                <td>{{ activities.activities__count }}</td>
+                <td>{{ activities.state|yesno:'Activo,Inactivo' }}</td>
+                <td>{{ activities.created_at }}</td>
+                <td>
+                    <a href="{% url 'tasks:update_task' activities.slug %}" class="btn btn-danger">Editar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from django.db import transaction
+from django.db.models import Count
 
 from users.models import Developer
 
@@ -43,58 +44,64 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     login_url = 'users:login'
     permission_required = 'tasks.can_view_user'
     template_name = 'tasks/task.html'
-    queryset = Task.objects.all().order_by('-pk')
+    queryset = Task.objects.annotate(Count('activities')).order_by('-pk')
 
 
-def create_task(request):
-    template_name = 'tasks/add_task.html'
-    form = TaskForm()
-    formset = TaskFormSet()
+# class TaskCreateView(LoginRequiredMixin, CreateView):
+#     login_url = 'users:login'
+#     template_name = 'projects/add_project.html'
+#     form_class = TaskForm
+#     success_url = reverse_lazy('projects:project')
 
-    if request.method == 'POST':
-        form = TaskForm(request.POST)
-        formset = TaskFormSet(request.POST)
+#     def get_context_data(self, **kwargs):
+#         data = super().get_context_data(**kwargs)
+#         if self.request.POST:
+#             data['formset'] = TaskFormSet(self.request.POST)
+#         else:
+#             data['formset'] = TaskFormSet()
 
-        if form.is_valid():
-            task = form.save(commit=False)
-            formset = TaskFormSet(request.POST, instance=task)
+#         return data
 
-            if formset.is_valid():
-                task.save()
-                formset.save()
+#     def form_valid(self, form):
+#         context = self.get_context_data()
+#         formset = context['formset']
 
-                return redirect('projects:project')
+#         with transaction.atomic():
+#             self.object = form.save()
 
-    return render(request, template_name, {
-        'form': form,
-        'formset': formset,
-    })
+#             if formset.is_valid():
+#                 formset.instance = self.object
+#                 formset.save()
+
+#         return super().form_valid(form)
 
 
-class TaskUpdateView(UpdateView):
-    model = Task
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    template_name = 'tasks/update_task.html'
     form_class = TaskForm
-    template_name = 'tasks/add_task.html'
+    model = Task
+    success_url = reverse_lazy('tasks:task')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['name'] = TaskFormSet(self.request.POST, instance=self.object)
+            data['formset'] = TaskFormSet(
+                self.request.POST, instance=self.object)
         else:
-            data['name'] = TaskFormSet(instance=self.object)
+            data['formset'] = TaskFormSet(instance=self.object)
+
         return data
 
     def form_valid(self, form):
-        self.object = form.save()
+        context = self.get_context_data()
+        formset = context['formset']
 
-    def get_success_url(self):
-        return reverse_lazy('mycollections:collection_detail')
+        with transaction.atomic():
+            self.object = form.save()
 
+            if formset.is_valid():
+                formset.instance = self.object
+                formset.save()
 
-class TaskDeleteView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
-    login_url = 'users:login'
-    permission_required = 'tasks.can_delete_user'
-    template_name = 'tasks/delete_task.html'
-    form_class = TaskForm
-    model = Task
-    success_url = reverse_lazy('tasks:task')
+        return super().form_valid(form)

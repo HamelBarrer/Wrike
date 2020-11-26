@@ -14,10 +14,23 @@ class ProjectForm(ModelForm):
             'developer', 'name', 'status'
         )
         labels = {
-            'developer': 'Desarrollador',
+            'developer': 'Desarrolladore',
             'name': 'Nombre de Proyecto',
             'status': 'Estado',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['developer'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['status'].widget.attrs.update({
+            'class': 'form-control',
+        })
+
 
 class TaskForm(ModelForm):
     class Meta:
@@ -25,6 +38,15 @@ class TaskForm(ModelForm):
         fields = (
             'type_task', 'task',
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['type_task'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['task'].widget.attrs.update({
+            'class': 'form-control',
+        })
 
 
 ProjectFormSet = inlineformset_factory(

@@ -1,26 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <a href="{% url 'tasks:add_task' %}" class="btn btn-primary">Crear Nuevas Tareas</a>
-    <div class="row mt-2">
-        {% for field in object_list %}
-            <div class="col-sm-12 col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">{{ field.task }}</h3>
-                        <p class="card-title">Descripcion: {{ field.description }}</p>
-                        <p class="card-title">Fecha de Creacion: {{ field.created_at }}</p>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <a href="{% url 'tasks:update_task' field.slug %}" class="btn btn-success">Editar</a>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <a href="{% url 'tasks:delete_task' field.slug %}" class="btn btn-danger">Eliminar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="card">
+        <h2 class="card-title">Tareas</h2>
+        {% include 'tasks/snippets/tasks.html' %}
     </div>
 {% endblock %}

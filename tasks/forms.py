@@ -31,12 +31,28 @@ class TypeTaskForm(ModelForm):
 
 
 class TaskForm(ModelForm):
-
     class Meta:
         model = Task
         fields = (
-            'developer', 'description', 'type_task', 'task', 'state', 'project'
+            'developer', 'description', 'state'
         )
+        labels = {
+            'developer': 'Desarrolladores',
+            'description': 'Descripcion',
+            'state': 'Estado',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['developer'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['description'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['state'].widget.attrs.update({
+            'id': 'state_check',
+        })
 
 
 class ActivitiesForm(ModelForm):
@@ -45,6 +61,16 @@ class ActivitiesForm(ModelForm):
         fields = (
             'name', 'process',
         )
+        labels = {
+            'name': 'Nombre',
+            'proccess': 'Proceso',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+        })
 
 
 TaskFormSet = inlineformset_factory(
