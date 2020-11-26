@@ -1,13 +1,11 @@
-{% load materializecss %}
-
 <form id="form-container" method="post">
     {% csrf_token %}
-    {{ form|materializecss }}
+    {{ form }}
     <h2>Tareas</h2>
     {{ formset.management_form }}
     {% for form in formset %}
         <div id="projects_data">
-            {{ form|materializecss }}
+            {{ form }}
             <br>
         </div>
     {% endfor %}

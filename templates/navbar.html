@@ -1,0 +1,16 @@
+{% url 'users:logout' as logout %}
+
+<nav class="navbar">
+    <div class="navbar-content">
+        <button id="toggle-sidebar-btn" class="btn btn-action" type="button" onclick="halfmoon.toggleSidebar()">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="navbar-content ml-auto">
+        <button class="btn btn-action mr-5" type="button" onclick="halfmoon.toggleDarkMode()">
+            <i class="far fa-sun" aria-hidden="true"></i>
+            <span class="sr-only">Toggle dark mode</span>
+        </button>
+        <a href="{{ logout }}" class="btn btn-primary" role="button">Cerrar Sesion</a>
+    </div>
+</nav>
