@@ -2,7 +2,7 @@ from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.dispatch import receiver
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 
 
 class User(AbstractUser):
@@ -12,12 +12,12 @@ class User(AbstractUser):
     )
 
     avatar = models.ImageField(default='avatar.png', upload_to='users/')
-    role = models.CharField(max_length=50, choices=ROLE_CHOICES, verbose_name='Rol')
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES)
 
 
 class Administrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    creted_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
+    creted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username
@@ -25,7 +25,7 @@ class Administrator(models.Model):
 
 class Developer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username

@@ -3,7 +3,8 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
-from django.db.models.signals import pre_save
+from django.db.models import Count
+from django.db.models.signals import post_save, pre_save
 
 from projects.models import Project
 
@@ -11,11 +12,10 @@ from users.models import Developer
 
 
 class TypeTask(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Nombre')
+    name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=60, unique=True)
     status = models.BooleanField(default=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name='Fecha de Creacion')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -26,40 +26,28 @@ class TypeTask(models.Model):
 
 
 class Task(models.Model):
-    developer = models.ManyToManyField(Developer, verbose_name='Desarrollador')
-    type_task = models.ForeignKey(
-        TypeTask, on_delete=models.CASCADE, verbose_name='Tipo Tarea')
-    task = models.CharField(max_length=50, verbose_name='Tarea')
-    description = models.TextField(verbose_name='Descripcion')
-    state = models.BooleanField(default=True, verbose_name='Estado')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    type_task = models.ForeignKey(TypeTask, on_delete=models.CASCADE)
+    task = models.CharField(max_length=50)
+    description = models.TextField()
+    state = models.BooleanField(default=False)
+    porcentage = models.IntegerField(default=0)
     slug = models.SlugField(max_length=60, unique=True)
-    project = models.ForeignKey(
-        Project, on_delete=models.CASCADE, verbose_name='Proyecto')
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name='Fecha de Creacion')
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name='Fecha de Actualizacion')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.task
 
-    class Meta:
-        verbose_name = 'Tarea'
-        verbose_name_plural = 'Tareas'
-
 
 class Activities(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Nombre')
-    process = models.BooleanField(default=True)
+    name = models.CharField(max_length=50)
+    process = models.BooleanField(default=False)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        verbose_name = 'Actividad'
-        verbose_name_plural = 'Actividades'
 
 
 @receiver(pre_save, sender=TypeTask)
@@ -78,3 +66,8 @@ def set_slug_task(sender, instance, *args, **kwargs):
             )
 
         instance.slug = slug
+
+
+@receiver(post_save, sender=Activities)
+def calculate_porcentage(sender, instance, *args, **kwargs):
+    print(instance)

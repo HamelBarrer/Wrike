@@ -1,4 +1,3 @@
-from PIL import Image
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
@@ -11,29 +10,21 @@ from users.models import (
 
 
 class ProfileAdministrator(models.Model):
-    user = models.OneToOneField(Administrator, on_delete=models.CASCADE, verbose_name='Usuario')
+    user = models.OneToOneField(Administrator, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.slug
-
-    class Meta:
-        verbose_name = 'Perfil Administrador'
-        verbose_name_plural = 'Perfil de Administradores'
 
 
 class ProfileDeveloper(models.Model):
-    user = models.OneToOneField(Developer, on_delete=models.CASCADE, verbose_name='Usuario')
+    user = models.OneToOneField(Developer, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creacion')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.slug
-
-    class Meta:
-        verbose_name = 'Perfil Desarrollador'
-        verbose_name_plural = 'Perfil de Desarrolladores'
 
 
 @receiver(post_save, sender=Administrator)

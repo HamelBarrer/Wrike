@@ -13,22 +13,17 @@ class Project(models.Model):
         ('inactive', 'Inactivo'),
     )
 
-    name = models.CharField(max_length=50, unique=True, verbose_name='Nombre')
-    developer = models.ManyToManyField(Developer, verbose_name='Desarrollador')
+    name = models.CharField(max_length=50, unique=True)
+    developer = models.ManyToManyField(Developer)
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default=STATUS_CHOICES[1])
     slug = models.SlugField(max_length=50, unique=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name='Fecha de Creacion')
-    update_at = models.DateTimeField(
-        auto_now=True, verbose_name='Fecha de Actualizacion')
+    porcentage = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        verbose_name = 'Proyecto'
-        verbose_name_plural = 'Proyectos'
 
 
 @receiver(pre_save, sender=Project)

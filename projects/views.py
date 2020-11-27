@@ -1,13 +1,8 @@
-from django.shortcuts import render, redirect
 from django.urls.base import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView
 from django.db import transaction
 from django.db.models import Count
-
-from users.models import Developer
-
-from tasks.models import Task
 
 from .models import Project
 from .forms import ProjectForm, ProjectFormSet

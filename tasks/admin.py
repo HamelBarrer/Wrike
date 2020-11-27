@@ -26,7 +26,6 @@ class TaskCustom(admin.ModelAdmin):
     list_display = ('type_task', 'task', 'description',
                     'state', 'project', 'created_at', 'updated_at')
     list_filter = (
-        'developer__user__username',
         'type_task',
         'state',
     )

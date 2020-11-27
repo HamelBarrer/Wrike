@@ -1,9 +1,6 @@
-from django import forms
-from users.models import Developer
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
-from projects.models import Project
 
 from .models import (
     TypeTask,
@@ -34,19 +31,15 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
-            'developer', 'description', 'state'
+            'description', 'state'
         )
         labels = {
-            'developer': 'Desarrolladores',
             'description': 'Descripcion',
             'state': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['developer'].widget.attrs.update({
-            'class': 'form-control',
-        })
         self.fields['description'].widget.attrs.update({
             'class': 'form-control',
         })
