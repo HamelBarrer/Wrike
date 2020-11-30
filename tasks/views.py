@@ -1,3 +1,4 @@
+from projects.models import Project
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -45,32 +46,41 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.annotate(Count('activities')).order_by('-pk')
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = 'users:login'
+def task_update(request, slug):
     template_name = 'tasks/update_task.html'
-    form_class = TaskForm
-    model = Task
-    success_url = reverse_lazy('tasks:task')
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['formset'] = TaskFormSet(
-                self.request.POST, instance=self.object)
-        else:
-            data['formset'] = TaskFormSet(instance=self.object)
+    instancia = Task.objects.get(slug=slug)
+    form = TaskForm(instance=instancia)
+    formset = TaskFormSet(instance=instancia)
 
-        return data
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=instancia)
+        formset = TaskFormSet(request.POST, instance=instancia)
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['formset']
-
-        with transaction.atomic():
-            self.object = form.save()
+        if form.is_valid():
+            instancia = form.save(commit=False)
 
             if formset.is_valid():
-                formset.instance = self.object
+                formset.instance = instancia
+
                 formset.save()
 
-        return super().form_valid(form)
+                activities = instancia.activities_set.count()
+                completed = instancia.activities_set.filter(
+                    process=True).count()
+                total = (completed * 100) // activities
+                if total == 100:
+                    instancia.state = True
+                    instancia.porcentage = total
+                    instancia.save()
+                else:
+                    instancia.state = False
+                    instancia.porcentage = total
+                    instancia.save()
+
+                return redirect('tasks:task')
+
+    return render(request, template_name, {
+        'form': form,
+        'formset': formset,
+    })

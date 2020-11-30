@@ -1,13 +1,15 @@
 <canvas id="{{ project.slug }}" width="400" height="400"></canvas>
 
 <script>
-    const {{ project.slug }} = document.getElementById('{{ project.slug }}').getContext('2d');
-    var myChart  = new Chart({{ project.slug }}, {
+    faltante = 100 - [{{ project.porcentage }}]
+    var graphic = document.getElementById('{{ project.slug }}').getContext('2d');
+    var myChart  = new Chart(graphic, {
         type: 'pie',
         data: {
-            labels: ['{{ project }}',],
+            labels: ['{{ project.name }}', 'Falta'],
             datasets: [{
-                data: [12, 19, 3, 5, 2, 3],
+                data: [{{ project.porcentage }}, faltante],
+                backgroundColor: ['red', 'blue']
             }],
         },
         options: {

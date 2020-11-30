@@ -36,7 +36,7 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
-            'type_task', 'task',
+            'type_task', 'task', 'state'
         )
 
     def __init__(self, *args, **kwargs):
@@ -51,5 +51,5 @@ class TaskForm(ModelForm):
 
 ProjectFormSet = inlineformset_factory(
     Project, Task, form=TaskForm,
-    fields=['type_task', 'task'], extra=1, can_delete=True,
+    fields=['type_task', 'task', 'state'], extra=1, can_delete=True,
 )

@@ -2,6 +2,9 @@
 {% url 'users:login' as login %}
 {% url 'users:user' as user %}
 
+<!-- Urls for the app of profiles -->
+{% url 'profiles:profile' as profile %}
+
 <!-- Urls for the app of projects -->
 {% url 'projects:home' as home %}
 {% url 'projects:project' as project %}
@@ -47,7 +50,7 @@
             </span>
             Usuarios
         </a>
-        <a href="#" class="sidebar-link sidebar-link-with-icon active">
+        <a href="{{ profile }}" class="sidebar-link sidebar-link-with-icon {% if request.path == profile%}active{% endif %}">
             <span class="sidebar-icon">
                 <i class="fas fa-user" aria-hidden="true"></i>
             </span>

@@ -66,8 +66,3 @@ def set_slug_task(sender, instance, *args, **kwargs):
             )
 
         instance.slug = slug
-
-
-@receiver(post_save, sender=Activities)
-def calculate_porcentage(sender, instance, *args, **kwargs):
-    print(instance)
