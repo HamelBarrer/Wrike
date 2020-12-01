@@ -1,7 +1,9 @@
 from tasks.models import Task
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView
 from django.db import transaction
 from django.db.models import Count
@@ -19,7 +21,7 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['conteo'] = Task.objects.filter(project=context['object_list'])
+        context['grupo'] = self.request.user.groups.filter(name='administradores').exists()
 
         return context
 
@@ -30,10 +32,12 @@ class ProjectListView(LoginRequiredMixin, ListView):
     queryset = Project.objects.annotate(Count('developer'))
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, CreateView):
     login_url = 'users:login'
     template_name = 'projects/add_project.html'
     form_class = ProjectForm
+    permission_required = 'projects.can_add_project'
+    success_message = 'Proyecto creado exitosamente'
     success_url = reverse_lazy('projects:project')
 
     def get_context_data(self, **kwargs):
@@ -97,45 +101,3 @@ def project_update(request, slug):
         'form': form,
         'formset': formset,
     })
-
-
-# class ProjectUpdateView(LoginRequiredMixin, UpdateView):
-#     login_url = 'users:login'
-#     template_name = 'projects/add_project.html'
-#     form_class = ProjectForm
-#     model = Project
-#     success_url = reverse_lazy('projects:project')
-
-#     def get_context_data(self, **kwargs):
-#         data = super().get_context_data(**kwargs)
-#         if self.request.POST:
-#             data['formset'] = ProjectFormSet(
-#                 self.request.POST, instance=self.object)
-#         else:
-#             data['formset'] = ProjectFormSet(instance=self.object)
-
-#         return data
-
-#     def form_valid(self, form):
-#         context = self.get_context_data()
-#         formset = context['formset']
-
-#         with transaction.atomic():
-#             self.object = form.save()
-
-#             if formset.is_valid():
-#                 formset.instance = self.object
-
-#                 activities = formset.instance.activities_set.count()
-#                 completed = formset.instance.activities_set.filter(
-#                     process=True).count()
-#                 total = (completed * 100) // activities
-
-#                 if total == 100:
-#                     formset.instance.state = True
-#                 else:
-#                     formset.instance.state = False
-
-#                 formset.save()
-
-#         return super().form_valid(form)

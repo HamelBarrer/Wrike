@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
-        {% include 'projects/snippets/card-project.html' %}
-    </div>
-    <div class="row">
-        {% include 'projects/graphics.html' %}
-    </div>
-    {% if is_paginated %}
-        <div class="container">
-            <div class="center">
-                {% include 'projects/paginator.html' %}
-            </div>
+    {% if grupo %}
+        <div class="row">
+            {% include 'projects/snippets/card-project.html' %}
         </div>
+        <div class="row">
+            {% include 'projects/graphics.html' %}
+        </div>
+        {% if is_paginated %}
+            <div class="container">
+                <div class="center">
+                    {% include 'projects/paginator.html' %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        holi
     {% endif %}
+
 {% endblock %}

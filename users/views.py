@@ -1,12 +1,20 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, logout, authenticate
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, TemplateView
 from django.urls import reverse_lazy
 
 from .models import Developer, User
-from .forms import UserForm
+from .forms import UserForm, ProfileForm
+
+
+def error_403(request, exception):
+    template_name = 'errors/403.html'
+
+    return render(request, template_name)
 
 
 def login_view(request):
@@ -43,33 +51,34 @@ class UserListView(LoginRequiredMixin, ListView):
     queryset = User.objects.all().order_by('-pk')
 
 
-class UserCreationView(LoginRequiredMixin, CreateView):
+class UserCreationView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'users:login'
     template_name = 'users/register.html'
     model = User
     form_class = UserForm
+    success_message = 'El usuario fue creado exitosamente'
     success_url = reverse_lazy('users:user')
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = 'users:login'
     template_name = 'users/update_user.html'
     form_class = UserForm
     model = User
+    success_message = 'El usuario fue modificado exitosamente'
     success_url = reverse_lazy('users:user')
 
 
-class DeveloperSearchView(LoginRequiredMixin, ListView):
+class ProfileTemplateView(LoginRequiredMixin, TemplateView):
     login_url = 'users:login'
-    template_name = 'users/search.html'
+    template_name = 'users/profile.html'
+    model = User
 
-    def get_queryset(self):
-        return Developer.objects.filter(user__username__icontains=self.query())
 
-    def query(self):
-        return self.request.GET.get('q')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['query'] = self.query()
-        return context
+class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    login_url = 'users:login'
+    template_name = 'users/update_profile.html'
+    form_class = ProfileForm
+    model = User
+    success_message = 'El perfil fue modificado exitosamente'
+    success_url = reverse_lazy('users:profile')

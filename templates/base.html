@@ -12,22 +12,27 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <script src="https://kit.fontawesome.com/ddd46d4aa2.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <link rel="stylesheet" href="{% static 'css/styled.css' %}">
 </head>
 
 <body data-set-preferred-mode-onload="true">
     <div class="page-wrapper with-navbar with-sidebar with-navbar-fixed-bottom">
-        {% include 'navbar.html' %}
-        {% include 'sidenav.html' %}
-
+        {% if request.user.is_authenticated %}
+            {% include 'navbar.html' %}
+            {% include 'sidenav.html' %}
+        {% endif %}
+        
+        
         <div class="content-wrapper">
             <div class="container-fluid">
+                {% include 'messages.html' %}
                 {% block content %}
                 {% endblock %}
             </div>
         </div>
 
-        {% include 'footer.html' %}
+        {% if request.user.is_authenticated %}
+            {% include 'footer.html' %}
+        {% endif %}
     </div>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="card">
         <a href="{% url 'projects:add_project' %}">Crear Proyectos</a>
-        <h2 class="card-text">Proyectos Creados</h2>
+        <h2 class="card-title text-center">Proyectos Creados</h2>
         {% include 'projects/snippets/projects.html' %}
     </div>
 {% endblock %}

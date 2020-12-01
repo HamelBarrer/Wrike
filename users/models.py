@@ -1,6 +1,6 @@
 from PIL import Image
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -36,8 +36,12 @@ def set_role_user(sender, instance, *args, **kwargs):
     if kwargs.get('created', False):
         if instance.role == 'administrador':
             Administrator.objects.create(user=instance)
+            group = Group.objects.get(name='administradores')
+            instance.groups.add(group)
         else:
             Developer.objects.create(user=instance)
+            group = Group.objects.get(name='desarrolladores')
+            instance.groups.add(group)
 
 
 @receiver(post_save, sender=User)
