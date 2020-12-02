@@ -17,6 +17,12 @@ def error_403(request, exception):
     return render(request, template_name)
 
 
+def error_404(request, exception):
+    template_name = 'errors/404.html'
+
+    return render(request, template_name)
+
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('projects:home')

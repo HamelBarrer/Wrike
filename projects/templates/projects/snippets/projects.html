@@ -1,25 +1,49 @@
 <table id="example" style="width:100%">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Desarrolladores</th>
-            <th>Estado</th>
-            <th>Fecha de Creacion</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for projects in object_list %}
+    {% if group %}
+        <thead>
             <tr>
-                <td>{{ projects.name }}</td>
-                <td>{{ projects.developer__count }}</td>
-                <td>{{ projects.status }}</td>
-                <td>{{ projects.created_at }}</td>
-                <td>
-                    <a href="{% url 'projects:update_project' projects.slug %}" class="btn btn-danger">Editar</a>
-                </td>
+                <th>Nombre</th>
+                <th>Desarrolladores</th>
+                <th>Estado</th>
+                <th>Fecha de Creacion</th>
+                <th>Acciones</th>
             </tr>
-        {% endfor %}
-    </tbody>
+        </thead>
+
+        <tbody>
+            {% for projects in object_list %}
+                <tr>
+                    <td>{{ projects.name }}</td>
+                    <td>{{ projects.developer__count }}</td>
+                    <td>{{ projects.status }}</td>
+                    <td>{{ projects.created_at }}</td>
+                    <td>
+                        <a href="{% url 'projects:update_project' projects.slug %}" class="btn btn-danger">Editar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Fecha de Creacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for projects in object_list %}
+                <tr>
+                    <td>{{ projects.name }}</td>
+                    <td>{{ projects.status }}</td>
+                    <td>{{ projects.created_at }}</td>
+                    <td>
+                        <a href="{% url 'projects:view_project' projects.slug %}" class="btn btn-primary">ver mas...</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
 </table>

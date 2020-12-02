@@ -1,10 +1,11 @@
+from users.models import Developer
 from tasks.models import Task
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.db import transaction
 from django.db.models import Count
 
@@ -16,23 +17,51 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'index.html'
     paginate_by = 6
-    queryset = Project.objects.annotate(Count('developer')).order_by('-pk')
+    # queryset = Project.objects.annotate(Count('developer')).order_by('-pk')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context['grupo'] = self.request.user.groups.filter(name='administradores').exists()
-
-        return context
+    def get_queryset(self):
+        group = self.request.user.groups.filter(
+            name='administradores').exists()
+        if group:
+            return Project.objects.annotate(Count('developer')).order_by('-pk')
+        else:
+            developer = Developer.objects.filter(
+                user=self.request.user).first()
+            return Project.objects.filter(developer=developer).order_by('-pk')
 
 
 class ProjectListView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'projects/project.html'
-    queryset = Project.objects.annotate(Count('developer'))
+    # queryset = Project.objects.annotate(Count('developer'))
+
+    def get_queryset(self):
+        group = self.request.user.groups.filter(name='administradores')
+        if group:
+            return Project.objects.annotate(Count('developer'))
+        else:
+            developer = Developer.objects.filter(
+                user=self.request.user).first()
+            return Project.objects.filter(developer=developer)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['group'] = self.request.user.groups.filter(
+            name='administradores').exists()
+
+        return context
 
 
-class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+class ProjectView(DetailView):
+    template_name = 'projects/view_project.html'
+
+    def get_queryset(self):
+        developer = Developer.objects.filter(user=self.request.user).first()
+        return Project.objects.filter(developer=developer).annotate(Count('task__activities'))
+
+
+class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     login_url = 'users:login'
     template_name = 'projects/add_project.html'
     form_class = ProjectForm
