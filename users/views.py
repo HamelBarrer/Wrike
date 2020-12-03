@@ -36,9 +36,10 @@ def login_view(request):
         user = authenticate(username=username, password=password)
 
         if user:
-            login(request, user)
-            messages.success(request, f'Bienvenido {user.username}')
-            return redirect('projects:home')
+            if user.is_active:
+                login(request, user)
+                messages.success(request, f'Bienvenido {user.username}')
+                return redirect('projects:home')
         else:
             messages.error(request, 'Usuario o contraseña invalidos')
 

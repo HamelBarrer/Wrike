@@ -30,7 +30,7 @@
             </span>
             Proyectos
         </a>
-        {% if request.user.groups == 'administradores' %}
+        {% if perms.tasks.can_view_tipo_tarea %}
             <a href="{{ type_task }}" class="sidebar-link sidebar-link-with-icon {% if request.path == type_task %}active{% endif %}">
                 <span class="sidebar-icon">
                     <i class="far fa-file-alt" aria-hidden="true"></i>

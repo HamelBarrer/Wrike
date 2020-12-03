@@ -19,12 +19,16 @@ from .forms import (
 )
 
 
-class TypeTaskListView(LoginRequiredMixin, ListView):
+class TypeTaskListView(LoginRequiredMixin, PermissionRequiredMixin,ListView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_view_tipo_tarea'
     template_name = 'tasks/type_task.html'
     queryset = TypeTask.objects.all().order_by('-pk')
 
 
-class TypeTaskCreateView(LoginRequiredMixin, CreateView):
+class TypeTaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    login_url = 'users:login'
+    permission_required = 'tasks.can_add_tipo_tarea'
     template_name = 'tasks/add_type_task.html'
     model = TypeTask
     form_class = TypeTaskForm

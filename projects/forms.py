@@ -1,3 +1,5 @@
+from tasks.models import TypeTask
+from django import forms
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
@@ -33,11 +35,19 @@ class ProjectForm(ModelForm):
 
 
 class TaskForm(ModelForm):
+    type_task = forms.ModelChoiceField(queryset=TypeTask.objects.filter(status=True))
+
     class Meta:
         model = Task
         fields = (
             'type_task', 'task', 'state'
         )
+
+        labels = {
+            'type_task': 'Tipo Tarea',
+            'task': 'Tarea',
+            'state': 'Estado',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

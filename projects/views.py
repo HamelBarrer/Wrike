@@ -5,7 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
 from django.db import transaction
 from django.db.models import Count
 
@@ -92,41 +92,43 @@ class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMess
         return super().form_valid(form)
 
 
-def project_update(request, slug):
+class ProjectFormView(UpdateView):
     template_name = 'projects/update_project.html'
+    form_class = ProjectForm
+    model = Project
+    success_url = reverse_lazy('projects:project')
 
-    instancia = Project.objects.get(slug=slug)
-    form = ProjectForm(instance=instancia)
-    formset = ProjectFormSet(instance=instancia)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            context['formset'] = ProjectFormSet(
+                self.request.POST, instance=self.object)
+        else:
+            context['formset'] = ProjectFormSet(instance=self.object)
+        return context
 
-    if request.method == 'POST':
-        form = ProjectForm(request.POST, instance=instancia)
-        formset = ProjectFormSet(request.POST, instance=instancia)
-
-        if form.is_valid():
-            instancia = form.save(commit=False)
-
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        with transaction.atomic():
+            self.object = form.save()
             if formset.is_valid():
-                formset.instance = instancia
-
+                formset.instance = self.object
                 formset.save()
+                if formset:
+                    activities = self.object.task_set.count()
+                    completed = self.object.task_set.filter(state=True).count()
+                    if activities == 0:
+                        self.object.save()
+                    else:
+                        total = (completed * 100) // activities
+                        if total == 100:
+                            self.object.porcentage = total
+                            self.object.status = 'approver'
+                            self.object.save()
+                        else:
+                            self.object.porcentage = total
+                            self.object.status = 'process'
+                            self.object.save()
 
-                activities = instancia.task_set.count()
-                completed = instancia.task_set.filter(
-                    state=True).count()
-                total = (completed * 100) // activities
-                if total == 100:
-                    instancia.porcentage = total
-                    Project.objects.update(status='approver')
-                    instancia.save()
-                else:
-                    instancia.porcentage = total
-                    Project.objects.update(status='process')
-                    instancia.save()
-
-            return redirect('projects:project')
-
-    return render(request, template_name, {
-        'form': form,
-        'formset': formset,
-    })
+        return super().form_valid(form)
