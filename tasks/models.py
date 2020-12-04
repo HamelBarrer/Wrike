@@ -3,12 +3,9 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
-from django.db.models import Count
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import pre_save
 
 from projects.models import Project
-
-from users.models import Developer
 
 
 class TypeTask(models.Model):

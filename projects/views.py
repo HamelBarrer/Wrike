@@ -1,5 +1,3 @@
-from users.models import Developer
-from tasks.models import Task
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
@@ -8,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
 from django.db import transaction
 from django.db.models import Count
+
+from users.models import User
 
 from .models import Project
 from .forms import ProjectForm, ProjectFormSet
@@ -25,8 +25,7 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
         if group:
             return Project.objects.annotate(Count('developer')).order_by('-pk')
         else:
-            developer = Developer.objects.filter(
-                user=self.request.user).first()
+            developer = User.objects.filter(pk=self.request.user.pk).first()
             return Project.objects.filter(developer=developer).order_by('-pk')
 
 
@@ -40,8 +39,7 @@ class ProjectListView(LoginRequiredMixin, ListView):
         if group:
             return Project.objects.annotate(Count('developer'))
         else:
-            developer = Developer.objects.filter(
-                user=self.request.user).first()
+            developer = User.objects.filter(pk=self.request.user.pk).first()
             return Project.objects.filter(developer=developer)
 
     def get_context_data(self, **kwargs):
@@ -57,7 +55,7 @@ class ProjectView(DetailView):
     template_name = 'projects/view_project.html'
 
     def get_queryset(self):
-        developer = Developer.objects.filter(user=self.request.user).first()
+        developer = User.objects.filter(pk=self.request.user.pk).first()
         return Project.objects.filter(developer=developer).annotate(Count('task__activities'))
 
 

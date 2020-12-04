@@ -12,15 +12,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Project',
+            name='Profile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('status', models.CharField(choices=[('process', 'En Proceso'), ('inactive', 'Inactivo')], default=('process', 'En Proceso'), max_length=10)),
-                ('slug', models.SlugField(unique=True)),
-                ('porcent', models.IntegerField(default=0)),
+                ('avatar', models.ImageField(default='avatar.png', upload_to='profiles/')),
+                ('phone', models.CharField(blank=True, max_length=14, null=True)),
+                ('direction', models.CharField(blank=True, max_length=80, null=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('update_at', models.DateTimeField(auto_now=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
             ],
         ),
     ]

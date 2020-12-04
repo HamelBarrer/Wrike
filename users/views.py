@@ -7,8 +7,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView
 from django.urls import reverse_lazy
 
-from .models import Developer, User
-from .forms import UserForm, ProfileForm
+from .models import User
+from .forms import UserForm
 
 
 def error_403(request, exception):
@@ -74,18 +74,3 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
     success_message = 'El usuario fue modificado exitosamente'
     success_url = reverse_lazy('users:user')
-
-
-class ProfileTemplateView(LoginRequiredMixin, TemplateView):
-    login_url = 'users:login'
-    template_name = 'users/profile.html'
-    model = User
-
-
-class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    login_url = 'users:login'
-    template_name = 'users/update_profile.html'
-    form_class = ProfileForm
-    model = User
-    success_message = 'El perfil fue modificado exitosamente'
-    success_url = reverse_lazy('users:profile')

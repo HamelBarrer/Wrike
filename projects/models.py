@@ -3,22 +3,21 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
-from users.models import Developer
+from users.models import User
 
 
 class Project(models.Model):
     STATUS_CHOICES = (
-        ('approver', 'Aprovado'),
         ('process', 'En Proceso'),
         ('inactive', 'Inactivo'),
     )
 
     name = models.CharField(max_length=50, unique=True)
-    developer = models.ManyToManyField(Developer)
+    developer = models.ManyToManyField(User)
     status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default=STATUS_CHOICES[1])
+        max_length=10, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     slug = models.SlugField(max_length=50, unique=True)
-    porcentage = models.IntegerField(default=0)
+    porcent = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
