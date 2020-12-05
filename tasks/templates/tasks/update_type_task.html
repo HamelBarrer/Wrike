@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <div class="card">
-            <div class="card-content">
-                <h2 class="center">Actualizar el tipo de tarea</h2>
-                {% include 'tasks/snippets/type_form.html' with message='actualizar' %}
-            </div>
+    <div class="card">
+        <div class="card-content">
+            <h2 class="center">Actualizar el tipo de tarea</h2>
+            {% include 'tasks/snippets/type_form.html' with message='actualizar' %}
         </div>
     </div>
 {% endblock %}

@@ -30,7 +30,7 @@
             </span>
             Proyectos
         </a>
-        {% if perms.tasks.can_view_tipo_tarea %}
+        {% if perms.tasks.view_typetask %}
             <a href="{{ type_task }}" class="sidebar-link sidebar-link-with-icon {% if request.path == type_task %}active{% endif %}">
                 <span class="sidebar-icon">
                     <i class="far fa-file-alt" aria-hidden="true"></i>
@@ -38,7 +38,7 @@
                 Tipo de tareas
             </a>
         {% endif %}
-        {% if perms.tasks.can_view_activities %}
+        {% if perms.tasks.view_activities %}
             <a href="{{ task }}" class="sidebar-link sidebar-link-with-icon {% if request.path == task%}active{% endif %}">
                 <span class="sidebar-icon">
                     <i class="far fa-file" aria-hidden="true"></i>

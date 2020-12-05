@@ -50,41 +50,45 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.annotate(Count('activities')).order_by('-pk')
 
 
-def task_update(request, slug):
+class TaskUpdateView(UpdateView):
     template_name = 'tasks/update_task.html'
+    form_class = TaskForm
+    model = Task
+    success_url = reverse_lazy('tasks:task')
 
-    instancia = Task.objects.get(slug=slug)
-    form = TaskForm(instance=instancia)
-    formset = TaskFormSet(instance=instancia)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'POST':
+            context['formset'] = TaskFormSet(
+                self.request.POST, instance=self.object)
+        else:
+            context['formset'] = TaskFormSet(instance=self.object)
+        return context
 
-    if request.method == 'POST':
-        form = TaskForm(request.POST, instance=instancia)
-        formset = TaskFormSet(request.POST, instance=instancia)
-
-        if form.is_valid():
-            instancia = form.save(commit=False)
-
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        with transaction.atomic():
+            self.object = form.save()
             if formset.is_valid():
-                formset.instance = instancia
-
+                formset.instance = self.object
                 formset.save()
+                if formset:
+                    activities = self.object.activities_set.count()
+                    completed = self.object.activities_set.filter(process=True).count()
+                    if activities == 0:
+                        self.object.porcentage = 0
+                        self.object.state = False
+                        self.object.save()
+                    else:
+                        total = (completed * 100) // activities
+                        if total == 100:
+                            self.object.porcentage = total
+                            self.object.state = True
+                            self.object.save()
+                        else:
+                            self.object.porcentage = total
+                            self.object.state = False
+                            self.object.save()
 
-                activities = instancia.activities_set.count()
-                completed = instancia.activities_set.filter(
-                    process=True).count()
-                total = (completed * 100) // activities
-                if total == 100:
-                    instancia.state = True
-                    instancia.porcentage = total
-                    instancia.save()
-                else:
-                    instancia.state = False
-                    instancia.porcentage = total
-                    instancia.save()
-
-                return redirect('tasks:task')
-
-    return render(request, template_name, {
-        'form': form,
-        'formset': formset,
-    })
+        return super().form_valid(form)

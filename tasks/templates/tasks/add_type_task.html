@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h2 class="center">Crear Tipo de Tarea</h2>
-        <div class="card">
-            <div class="card-content">
-                {% include 'tasks/snippets/type_form.html' with message='crear' %}
-            </div>
+    <div class="card">
+        <div class="card-title">Crear Tipo tarea</div>
+        <div class="card-content">
+            {% include 'tasks/snippets/type_form.html' with message='crear' %}
         </div>
     </div>
 {% endblock %}

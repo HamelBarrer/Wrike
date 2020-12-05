@@ -22,7 +22,9 @@ def set_role_user(sender, instance, *args, **kwargs):
     if instance.role:
         if instance.role == 'administrador':
             group = Group.objects.get(name='administradores')
-            instance.groups.update(group)
+            instance.groups.clear()
+            instance.groups.add(group)
         else:
             group = Group.objects.get(name='desarrolladores')
-            instance.groups.update(group)
+            instance.groups.clear()
+            instance.groups.add(group)
