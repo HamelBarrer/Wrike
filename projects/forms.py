@@ -5,10 +5,13 @@ from django.forms.models import inlineformset_factory
 
 from tasks.forms import Task
 
+from users.models import User
+
 from .models import Project
 
 
 class ProjectForm(ModelForm):
+    developer = forms.ModelMultipleChoiceField(queryset=User.objects.filter(groups__name='desarrolladores'))
 
     class Meta:
         model = Project
@@ -16,7 +19,7 @@ class ProjectForm(ModelForm):
             'developer', 'name', 'status'
         )
         labels = {
-            'developer': 'Desarrolladore',
+            'developer': 'Desarrollador',
             'name': 'Nombre de Proyecto',
             'status': 'Estado',
         }

@@ -16,7 +16,7 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=timezone.now())
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 @receiver(post_save, sender=User)

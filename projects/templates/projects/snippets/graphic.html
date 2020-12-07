@@ -1,7 +1,7 @@
 <canvas id="{{ project.slug }}" width="400" height="400"></canvas>
 
 <script>
-    faltante = 100 - {{ project.porcent }}
+    faltante = 100 - [{{ project.porcent }}]
     var graphic = document.getElementById('{{ project.slug }}').getContext('2d');
     var myChart  = new Chart(graphic, {
         type: 'pie',

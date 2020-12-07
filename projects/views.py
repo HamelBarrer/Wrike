@@ -32,7 +32,6 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
 class ProjectListView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'projects/project.html'
-    # queryset = Project.objects.annotate(Count('developer'))
 
     def get_queryset(self):
         group = self.request.user.groups.filter(name='administradores')
@@ -127,5 +126,9 @@ class ProjectFormView(UpdateView):
                             self.object.status = 'approver'
                             self.object.save()
                             print(self.object.porcent)
+                        else:
+                            self.object.porcent = total
+                            self.object.status = 'inactive'
+                            self.object.save()
 
         return super().form_valid(form)
