@@ -3,10 +3,11 @@
 {% block content %}
     <div class="card">
         <div class="card-title">Actualizar Informacion</div>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form_user }}
+            {{ form_user.as_p }}
             {{ form.as_p }}
+            <button type="submit" class="btn">actualizar</button>
         </form>
     </div>
 {% endblock %}

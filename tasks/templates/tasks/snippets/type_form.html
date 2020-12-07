@@ -1,15 +1,14 @@
 <form method="POST">
     {% csrf_token %}
     <div class="row">
-        <div class="input-field col s6">
-            <i class="material-icons prefix">chrome_reader_mode</i>
-            {{ form.name }}
+        <div class="col-sm-12 col-md-6">
             <label for="icon_prefix">{{ form.name.label }}</label>
+            {{ form.name }}
         </div>
-        <p class="input-field col s6">
+        <p class="col-sm-12 col-md-6">
             <label>
-                {{ form.status }}
                 <span>{{ form.status.label }}</span>
+                {{ form.status }}
             </label>
         </p>
     </div>

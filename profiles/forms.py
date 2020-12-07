@@ -5,7 +5,6 @@ from .models import Profile
 
 
 class ProfileForm(ModelForm):
-    phone = forms.NumberInput()
     class Meta:
         model = Profile
         fields = (

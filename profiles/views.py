@@ -1,33 +1,49 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, UpdateView
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.views.generic import UpdateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from users.forms import UserForm
+from users.forms import UserUpdateForm
 from users.models import User
 
 from .forms import ProfileForm
 from .models import Profile
 
 
-class ProfileTemplateView(TemplateView):
+@login_required(login_url='users:login')
+def profile_view(request):
     template_name = 'profiles/profil.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(user=self.request.user)
+    user = request.user
+    profile = Profile.objects.filter(user=user).first()
 
-        return context
+    return render(request, template_name, {
+        'profile': profile,
+    })
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    success_url = 'users:login'
     template_name = 'profiles/update_profile.html'
-    model = Profile
     form_class = ProfileForm
-    success_url = reverse_lazy('profiles:profile')
+    model = Profile
 
     def get_context_data(self, **kwargs):
-        user = User.objects.get(pk=self.request.user.pk)
         context = super().get_context_data(**kwargs)
-        context['form_user'] = UserForm(instance=user)
+        if self.request.method == 'POST':
+            context['form_user'] = UserUpdateForm(
+                self.request.POST, instance=self.request.user)
+        else:
+            context['form_user'] = UserUpdateForm(instance=self.request.user)
 
         return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form_user = context['form_user']
+
+        self.object = form.save()
+        form_user.save()
+
+        return redirect('profiles:profile')
