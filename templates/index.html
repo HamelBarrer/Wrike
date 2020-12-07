@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
-        {% include 'projects/snippets/card-project.html' %}
-    </div>
+    {% if group %}
+        <div class="row">
+            {% include 'projects/snippets/card-project.html' %}
+        </div>
+    {% endif %}
     <div class="row">
         {% include 'projects/graphics.html' %}
     </div>

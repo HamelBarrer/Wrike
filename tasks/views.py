@@ -21,22 +21,23 @@ from .forms import (
 
 class TypeTaskListView(LoginRequiredMixin, PermissionRequiredMixin,ListView):
     login_url = 'users:login'
-    permission_required = 'tasks.can_view_tipo_tarea'
+    permission_required = 'tasks.view_typetask'
     template_name = 'tasks/type_task.html'
     queryset = TypeTask.objects.all().order_by('-pk')
 
 
 class TypeTaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     login_url = 'users:login'
-    permission_required = 'tasks.can_add_tipo_tarea'
+    permission_required = 'tasks.add_typetask'
     template_name = 'tasks/add_type_task.html'
     model = TypeTask
     form_class = TypeTaskForm
     success_url = reverse_lazy('tasks:type_task')
 
 
-class TypeTaskUpdateView(LoginRequiredMixin, UpdateView):
+class TypeTaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
     login_url = 'users:login'
+    permission_required = 'tasks'
     template_name = 'tasks/update_type_task.html'
     model = TypeTask
     form_class = TypeTaskForm

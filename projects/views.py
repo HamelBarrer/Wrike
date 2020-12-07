@@ -1,3 +1,4 @@
+from tasks.models import Task
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
@@ -27,6 +28,17 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
         else:
             developer = User.objects.filter(pk=self.request.user.pk).first()
             return Project.objects.filter(developer=developer).order_by('-pk')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['group'] = User.objects.filter(pk=self.request.user.pk, groups__name='administradores').exists()
+        context['admin'] = User.objects.filter(groups__name='administradores').count()
+        context['developer'] = User.objects.filter(groups__name='desarrolladores').count()
+        context['projects'] = Project.objects.count()
+        context['tasks'] = Task.objects.count()
+
+        return context
 
 
 class ProjectListView(LoginRequiredMixin, ListView):
