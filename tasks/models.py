@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.dispatch import receiver
+from django.utils import timezone
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
@@ -12,7 +13,7 @@ class TypeTask(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=60, unique=True)
     status = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
 
     def __str__(self):
         return self.name
@@ -30,8 +31,8 @@ class Task(models.Model):
     state = models.BooleanField(default=False)
     porcentage = models.IntegerField(default=0)
     slug = models.SlugField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    updated_at = models.DateTimeField(auto_now=timezone.now())
 
     def __str__(self):
         return self.task
@@ -41,7 +42,7 @@ class Activities(models.Model):
     name = models.CharField(max_length=50)
     process = models.BooleanField(default=False)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
 
     def __str__(self):
         return self.name

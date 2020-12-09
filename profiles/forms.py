@@ -5,6 +5,11 @@ from .models import Profile
 
 
 class ProfileForm(ModelForm):
+    phone = forms.CharField(
+        min_length=10,
+        max_length=14,
+        widget=forms.NumberInput()
+    )
     class Meta:
         model = Profile
         fields = (

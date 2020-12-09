@@ -1,5 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
+from django.utils import timezone
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 
@@ -18,8 +19,8 @@ class Project(models.Model):
         max_length=10, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     slug = models.SlugField(max_length=50, unique=True)
     porcent = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    update_at = models.DateTimeField(auto_now=timezone.now())
 
     def __str__(self):
         return self.name

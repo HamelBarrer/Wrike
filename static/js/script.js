@@ -1,3 +1,5 @@
 $(document).ready(function () {
-    $('#example').DataTable();
+    var table = $('table').DataTable();
+
+    $('.dataTables_filter input').attr('maxLength', 10)
 });
