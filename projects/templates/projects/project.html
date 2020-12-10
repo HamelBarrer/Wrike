@@ -2,10 +2,12 @@
 
 {% block content %}
     <div class="card">
-        {% if perms.projects.can_add_project %}
-            <a href="{% url 'projects:add_project' %}">Crear Proyectos</a>
-        {% endif %}
-        <h2 class="card-title text-center">Proyectos Creados</h2>
-        {% include 'projects/snippets/projects.html' %}
+        <div class="card-content m-2">
+            {% if perms.projects.add_project %}
+                <a href="{% url 'projects:add_project' %}">Crear Proyectos</a>
+            {% endif %}
+            <h2 class="card-title text-center">Proyectos Creados</h2>
+            {% include 'projects/snippets/projects.html' %}
+        </div>
     </div>
 {% endblock %}

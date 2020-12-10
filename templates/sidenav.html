@@ -1,5 +1,5 @@
 <!-- Urls for the app of user -->
-{% url 'users:login' as login %}
+{% url 'users:logout' as logout %}
 {% url 'users:user' as user %}
 {% url 'profiles:profile' as profile %}
 
@@ -14,51 +14,48 @@
 {% url 'tasks:task' as task %}
 {% url 'tasks:add_task' as add_task %}
 
-<div class="sidebar">
-    <div class="sidebar-menu">
-        <h5 class="sidebar-title">Campos del Sistema</h5>
-        <div class="sidebar-divider"></div>
-        <a href="{{ home }}" class="sidebar-link sidebar-link-with-icon {% if request.path == home %}active{% endif %}">
-            <span class="sidebar-icon">
-                <i class="far fa-chart-bar" aria-hidden="true"></i>
-            </span>
-            Inicio
-        </a>
-        <a href="{{ project }}" class="sidebar-link sidebar-link-with-icon {% if request.path == project %}active{% endif %}">
-            <span class="sidebar-icon">
-                <i class="fas fa-atlas" aria-hidden="true"></i>
-            </span>
-            Proyectos
-        </a>
-        {% if perms.tasks.view_typetask %}
-            <a href="{{ type_task }}" class="sidebar-link sidebar-link-with-icon {% if request.path == type_task %}active{% endif %}">
-                <span class="sidebar-icon">
-                    <i class="far fa-file-alt" aria-hidden="true"></i>
-                </span>
-                Tipo de tareas
-            </a>
-        {% endif %}
-        {% if perms.tasks.view_activities %}
-            <a href="{{ task }}" class="sidebar-link sidebar-link-with-icon {% if request.path == task%}active{% endif %}">
-                <span class="sidebar-icon">
-                    <i class="far fa-file" aria-hidden="true"></i>
-                </span>
-                Tareas
-            </a>
-        {% endif %}
-        {% if perms.users %}
-            <a href="{{ user }}" class="sidebar-link sidebar-link-with-icon {% if request.path == user%}active{% endif %}">
-                <span class="sidebar-icon">
-                    <i class="fas fa-users" aria-hidden="true"></i>
-                </span>
-                Usuarios
-            </a>
-        {% endif %}
-        <a href="{{ profile }}" class="sidebar-link sidebar-link-with-icon {% if request.path == profile%}active{% endif %}">
-            <span class="sidebar-icon">
-                <i class="fas fa-user" aria-hidden="true"></i>
-            </span>
-            Perfil
-        </a>
-    </div>
+<div class="navview-container">
+    <button class="pull-button">
+        <span class="default-icon-menu"></span>
+    </button>
 </div>
+<div class="navview-menu-container">
+    <ul class="navview-menu mt-4">
+        <li class="item-header">Main pages</li>
+
+        <li>
+            <a href="#">
+                <span class="icon"><span class="mif-apps"></span></span>
+                <span class="caption">Apps</span>
+            </a>
+        </li>
+
+        <li class="item-separator"></li>
+
+        <li class="item-header">Office</li>
+
+        <li>
+            <a href="#">
+                <span class="icon"><span class="mif-file-word"></span></span>
+                <span class="caption">Word</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span class="icon"><span class="mif-file-excel"></span></span>
+                <span class="caption">Excel</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- <ul class="sidebar-menu">
+    <span class="default-icon-menu"></span>
+    <li><a href="{{ home }}"><span class="mif-dashboard icon"></span>Inicio</a></li>
+    <li><a href="{{ type_task }}"><span class="mif-bookmark icon"></span>Tipo de tareas</a></li>
+    <li><a href="{{ project }}"><span class="mif-books icon"></span>Proyectos</a></li>
+    <li><a href="{{ task }}"><span class="mif-open-book icon"></span>Tareas</a></li>
+    <li><a href="{{ user }}"><span class="mif-users icon"></span>Usuarios</a></li>
+    <li class="divider"></li>
+    <li><a href="{{ profile }}"><span class="mif-user icon"></span>Perfil</a></li>
+    <li><a href="{{ logout }}"><span class="mif-exit icon"></span>Cerrar sesion</a></li>
+</ul> -->
