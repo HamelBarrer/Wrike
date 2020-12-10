@@ -42,5 +42,5 @@
         {% endfor %}
     </table>
     <button type="submit" class="btn btn-success">{{ message }}</button>
-    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
+    <a href="{% url 'projects:project' %}" class="btn btn-danger">Cancelar</a>
 </form>

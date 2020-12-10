@@ -18,7 +18,6 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'index.html'
     paginate_by = 6
-    # queryset = Project.objects.annotate(Count('developer')).order_by('-pk')
 
     def get_queryset(self):
         group = self.request.user.groups.filter(
