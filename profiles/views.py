@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from users.forms import UserUpdateForm
-from users.models import User
 
 from .forms import ProfileForm
 from .models import Profile

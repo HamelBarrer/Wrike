@@ -4,8 +4,10 @@
 {% block title %}{% endblock %}
 {% block content %}
     <div class="card">
-        <h2 class="card-title">Editar tarea: {{ form.task }}</h2>
-        {% include 'tasks/snippets/form.html' with message='actualizar' %}
+        <div class="card-content m-2">
+            <h2 class="card-title">Editar tarea: {{ form.task }}</h2>
+            {% include 'tasks/snippets/form.html' with message='actualizar' %}
+        </div>
     </div>
 {% endblock %}
 
@@ -14,8 +16,8 @@
         $(function () {
             $('#projects_data').formset({
                 prefix: '{{ formset.prefix }}',
-                addText: 'crear tarea',
-                deleteText: 'eliminar tarea',
+                addText: 'crear actividad',
+                deleteText: 'eliminar actividad',
             });
         })
     </script>

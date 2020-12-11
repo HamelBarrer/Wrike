@@ -27,12 +27,16 @@ class ProjectForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['developer'].widget.attrs.update({
+            'data-role': 'select',
             'class': 'form-control',
         })
         self.fields['name'].widget.attrs.update({
+            'data-role': 'input',
+            'data-prepend':"<span class='mif-user'></span>",
             'class': 'form-control',
         })
         self.fields['status'].widget.attrs.update({
+            'data-role': 'select',
             'class': 'form-control',
         })
 
@@ -64,5 +68,5 @@ class TaskForm(ModelForm):
 
 ProjectFormSet = inlineformset_factory(
     Project, Task, form=TaskForm,
-    fields=['type_task', 'task', 'state'], extra=1, can_delete=True,
+    fields=['type_task', 'task', 'state'], extra=1
 )

@@ -21,41 +21,11 @@
 </div>
 <div class="navview-menu-container">
     <ul class="navview-menu mt-4">
-        <li class="item-header">Main pages</li>
-
-        <li>
-            <a href="#">
-                <span class="icon"><span class="mif-apps"></span></span>
-                <span class="caption">Apps</span>
-            </a>
-        </li>
-
-        <li class="item-separator"></li>
-
-        <li class="item-header">Office</li>
-
-        <li>
-            <a href="#">
-                <span class="icon"><span class="mif-file-word"></span></span>
-                <span class="caption">Word</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <span class="icon"><span class="mif-file-excel"></span></span>
-                <span class="caption">Excel</span>
-            </a>
-        </li>
+        <li class="item-header">Opciones principales</li>
+        <li class="done {% if request.path == home %}active{% endif %}"><a href="{{ home }}"><span class="mif-dashboard icon"></span>Inicio</a></li>
+        <li class="done {% if request.path == type_task %}active{% endif %}"><a href="{{ type_task }}"><span class="mif-bookmark icon"></span>Tipo de tareas</a></li>
+        <li class="done {% if request.path == project %}active{% endif %}"><a href="{{ project }}"><span class="mif-books icon"></span>Proyectos</a></li>
+        <li class="done {% if request.path == task %}active{% endif %}"><a href="{{ task }}"><span class="mif-open-book icon"></span>Tareas</a></li>
+        <li class="done {% if request.path == user %}active{% endif %}"><a href="{{ user }}"><span class="mif-users icon"></span>Usuarios</a></li>
     </ul>
 </div>
-<!-- <ul class="sidebar-menu">
-    <span class="default-icon-menu"></span>
-    <li><a href="{{ home }}"><span class="mif-dashboard icon"></span>Inicio</a></li>
-    <li><a href="{{ type_task }}"><span class="mif-bookmark icon"></span>Tipo de tareas</a></li>
-    <li><a href="{{ project }}"><span class="mif-books icon"></span>Proyectos</a></li>
-    <li><a href="{{ task }}"><span class="mif-open-book icon"></span>Tareas</a></li>
-    <li><a href="{{ user }}"><span class="mif-users icon"></span>Usuarios</a></li>
-    <li class="divider"></li>
-    <li><a href="{{ profile }}"><span class="mif-user icon"></span>Perfil</a></li>
-    <li><a href="{{ logout }}"><span class="mif-exit icon"></span>Cerrar sesion</a></li>
-</ul> -->

@@ -1,12 +1,12 @@
-<table class="table" data-role="table" data-store-key="name, count, status, created_at, action">
+<table class="table" data-role="table">
     {% if group %}
         <thead>
             <tr>
-                <th data-name="name">Nombre</th>
-                <th data-name="count">Desarrolladores</th>
-                <th data-name="status">Estado</th>
-                <th data-name="created_at">Fecha de Creacion</th>
-                <th data-name="action">Acciones</th>
+                <th>Nombre</th>
+                <th>Desarrolladores</th>
+                <th>Estado</th>
+                <th>Fecha de Creacion</th>
+                <th>Acciones</th>
             </tr>
         </thead>
 
@@ -18,7 +18,7 @@
                     <td>{{ projects.status }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>
-                        <a href="{% url 'projects:update_project' projects.slug %}" class="btn btn-danger">Editar</a>
+                        <a href="{% url 'projects:update_project' projects.slug %}" class="button info"><span class="mif-pencil icon"></span> Editar</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -40,7 +40,7 @@
                     <td>{{ projects.status }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>
-                        <a href="{% url 'projects:view_project' projects.slug %}" class="btn btn-primary">ver mas...</a>
+                        <a href="{% url 'projects:view_project' projects.slug %}" class="button info">ver mas...</a>
                     </td>
                 </tr>
             {% endfor %}

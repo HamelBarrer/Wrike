@@ -56,7 +56,7 @@ class ActivitiesForm(ModelForm):
         )
         labels = {
             'name': 'Nombre',
-            'proccess': 'Proceso',
+            'process': 'Proseso',
         }
 
     def __init__(self, *args, **kwargs):

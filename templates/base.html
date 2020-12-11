@@ -13,14 +13,14 @@
 </head>
 
 <body class="h-vh-100">
-    <div data-role="navview">
+    <div data-role="navview" data-compact="false">
         <div class="navview-pane">
             {% include 'sidenav.html' %}
         </div>
 
-        <div class="navview-content h-100">
+        <div class="navview-content h-100 pt-15">
             {% include 'appbar.html' %}
-            <div class="container">
+            <div class="container-fluid">
                 {% block content %}
                 {% endblock %}
             </div>
