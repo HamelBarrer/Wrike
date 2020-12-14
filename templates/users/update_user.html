@@ -2,7 +2,9 @@
 
 {% block content %}
     <div class="card">
-        <div class="card-title text-center">Actualizar Usuario</div>
-        {% include 'users/snippets/form.html' with message='actualizar' %}
+        <div class="card-content m-2">
+            <h2 class="text-center">Actualizar Usuario</h2>
+            {% include 'users/snippets/form.html' with message='actualizar' %}
+        </div>
     </div>
 {% endblock %}

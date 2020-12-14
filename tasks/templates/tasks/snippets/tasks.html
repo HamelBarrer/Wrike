@@ -1,4 +1,4 @@
-<table class="table" data-role="table">
+<table class="table" data-role="table" data-horizontal-scroll="true" data-table-search-title="Buscar: " data-table-rows-count-title="Cantidad a mostrar">
     <thead>
         <tr>
             <th>Proyectos</th>
@@ -21,7 +21,7 @@
                 <td>{{ activities.state|yesno:'Completado,En proceso' }}</td>
                 <td>{{ activities.created_at }}</td>
                 <td>
-                    <a href="{% url 'tasks:update_task' activities.slug %}" class="btn btn-danger">Editar</a>
+                    <a href="{% url 'tasks:update_task' activities.slug %}" class="button info"><span class="mif-pencil icon"></span> Editar</a>
                 </td>
             </tr>
         {% endfor %}

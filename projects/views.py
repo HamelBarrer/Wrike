@@ -128,18 +128,17 @@ class ProjectFormView(UpdateView):
                     completed = self.object.task_set.filter(state=True).count()
                     if activities == 0:
                         self.object.porcent = 0
-                        self.object.status = 'inactive'
+                        self.object.status = 'proccess'
                         self.object.save()
                     else:
                         total = (completed * 100) // activities
                         if total == 100:
                             self.object.porcent = total
-                            self.object.status = 'approver'
+                            self.object.status = 'inactive'
                             self.object.save()
-                            print(self.object.porcent)
                         else:
                             self.object.porcent = total
-                            self.object.status = 'inactive'
+                            self.object.status = 'process'
                             self.object.save()
 
         return super().form_valid(form)

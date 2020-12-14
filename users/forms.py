@@ -17,25 +17,37 @@ class UserForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })
         self.fields['last_name'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })
         self.fields['email'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-mail'></span>",
+            'class': 'form-control',
         })
         self.fields['username'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })
         self.fields['password1'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-lock'></span>",
+            'class': 'form-control',
         })
         self.fields['password2'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-lock'></span>",
+            'class': 'form-control',
         })
         self.fields['role'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'select',
         })
 
 

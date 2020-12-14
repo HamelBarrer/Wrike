@@ -5,8 +5,8 @@
         {{ form.description }}
     </div>
     <div class="custom-checkbox">
-        {{ form.state }}
         <label for="state_check">{{ form.state.label }}</label>
+        {{ form.state }}
       </div>
     <h2>Actividades</h2>
     <table>
@@ -37,6 +37,6 @@
             </tr>
         {% endfor %}
     </table>
-    <button type="submit" class="btn btn-success">{{ message }}</button>
-    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
+    <button type="submit" class="button success">{{ message }}</button>
+    <a href="{% url 'tasks:task' %}" class="button alert">Cancelar</a>
 </form>

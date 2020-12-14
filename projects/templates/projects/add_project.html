@@ -3,44 +3,18 @@
 
 {% block content %}
     <div class="card">
-        <div class="card-content m-5">
+        <div class="card-content m-2">
             <h2>Agregar Proyecto</h2>
             {% include 'projects/snippets/form.html' with  message='Crear' %}
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-<script>
-        const add_input = () => {
-            let total_forms = document.querySelector('#id_task_set-TOTAL_FORMS');
-
-            let new_label_type_task = document.createElement('label');
-            new_label_type_task.innerHTML = 'Tipo de tarea';
-            let new_input_type_task = document.querySelector('#id_task_set-0-type_task').cloneNode(true);
-            new_input_type_task.name = 'task_set-' + total_forms.value + '-type_task';
-            new_input_type_task.id = 'id_task_set-' + total_forms.value + '-type_task';
-
-            let new_label_task = document.createElement('label');
-            new_label_task.innerHTML = 'Tarea';
-            let new_input_task = document.querySelector('#id_task_set-0-task').cloneNode(true);
-            new_input_task.name = 'task_set-' + total_forms.value + '-task';
-            new_input_task.id = 'id_task_set-' + total_forms.value + '-task';
-
-            let new_label_state = document.createElement('label');
-            new_label_state.innerHTML = 'Estado';
-            let new_input_state = document.querySelector('#id_task_set-0-state').cloneNode(true);
-            new_input_state.name = 'task_set-' + total_forms.value + '-state';
-            new_input_state.id = 'id_task_set-' + total_forms.value + '-state';
-
-            document.querySelector('#project_form').appendChild(new_label_type_task)
-            document.querySelector('#project_form').appendChild(new_input_type_task)
-            document.querySelector('#project_form').appendChild(new_label_task)
-            document.querySelector('#project_form').appendChild(new_input_task)
-            document.querySelector('#project_form').appendChild(new_label_state)
-            document.querySelector('#project_form').appendChild(new_input_state)
-
-            total_forms.value = parseInt(total_forms.value) + 1;
-        }
-</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.formset.js' %}"></script>
+        <script>
+            $('.formset_row').formset({
+                addText: 'agregar projectos',
+                deleteText: false,
+                prefix: 'familymember_set'
+            });
+        </script>
 {% endblock %}

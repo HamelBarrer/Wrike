@@ -16,13 +16,15 @@ class TypeTaskForm(ModelForm):
             'name', 'status',
         )
         labels = {
-            'name': 'Nombre del tipo del proyecto',
+            'name': 'Tipo tarea',
             'status': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-bookmark'></span>",
             'class': 'form-control',
         })
 
@@ -41,10 +43,11 @@ class TaskForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['description'].widget.attrs.update({
-            'class': 'form-control',
+            'data-role': 'textarea',
+            'data-prepend': "<span class='mif-description'></span>",
         })
         self.fields['state'].widget.attrs.update({
-            'id': 'state_check',
+            'data-role': 'checkbox'
         })
 
 
@@ -62,7 +65,12 @@ class ActivitiesForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-bookmark'></span>",
             'class': 'form-control',
+        })
+        self.fields['process'].widget.attrs.update({
+            'data-role': 'checkbox'
         })
 
 

@@ -1,6 +1,6 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
-    <button class="btn" type="submit">{{ message }}</button>
-    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
+    <button class="button success" type="submit">{{ message }}</button>
+    <a href="{% url 'users:user' %}" class="button alert">Cancelar</a>
 </form>

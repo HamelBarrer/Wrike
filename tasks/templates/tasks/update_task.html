@@ -9,16 +9,15 @@
             {% include 'tasks/snippets/form.html' with message='actualizar' %}
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
     <script>
-        $(function () {
-            $('#projects_data').formset({
-                prefix: '{{ formset.prefix }}',
-                addText: 'crear actividad',
-                deleteText: 'eliminar actividad',
-            });
-        })
+        $('#projects_data').formset({
+            addText: '<span class="mif-add icon"></span>  agregar actividades',
+            deleteText: 'Eliminar Actividad',
+            deleteCssClass: 'button alert',
+            addCssClass: 'button warning my-2',
+            prefix: '{{ formset.prefix }}'
+        });
     </script>
 {% endblock %}

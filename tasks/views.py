@@ -46,7 +46,7 @@ class TypeTaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView)
 
 class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     login_url = 'users:login'
-    permission_required = 'tasks.can_view_user'
+    permission_required = 'tasks.view_task'
     template_name = 'tasks/task.html'
     queryset = Task.objects.annotate(Count('activities')).order_by('-pk')
 

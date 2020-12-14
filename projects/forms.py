@@ -11,7 +11,7 @@ from .models import Project
 
 
 class ProjectForm(ModelForm):
-    developer = forms.ModelMultipleChoiceField(queryset=User.objects.filter(groups__name='desarrolladores'))
+    developer = forms.ModelMultipleChoiceField(queryset=User.objects.filter(groups__name='desarrolladores'), label='Desarrolladores')
 
     class Meta:
         model = Project
@@ -19,7 +19,6 @@ class ProjectForm(ModelForm):
             'developer', 'name', 'status'
         )
         labels = {
-            'developer': 'Desarrollador',
             'name': 'Nombre de Proyecto',
             'status': 'Estado',
         }
@@ -28,21 +27,18 @@ class ProjectForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['developer'].widget.attrs.update({
             'data-role': 'select',
-            'class': 'form-control',
         })
         self.fields['name'].widget.attrs.update({
             'data-role': 'input',
-            'data-prepend':"<span class='mif-user'></span>",
-            'class': 'form-control',
+            'data-prepend':"<span class='mif-books'></span>",
         })
         self.fields['status'].widget.attrs.update({
             'data-role': 'select',
-            'class': 'form-control',
         })
 
 
 class TaskForm(ModelForm):
-    type_task = forms.ModelChoiceField(queryset=TypeTask.objects.filter(status=True))
+    type_task = forms.ModelChoiceField(queryset=TypeTask.objects.filter(status=True), label='Tipo Tarea')
 
     class Meta:
         model = Task
@@ -51,7 +47,6 @@ class TaskForm(ModelForm):
         )
 
         labels = {
-            'type_task': 'Tipo Tarea',
             'task': 'Tarea',
             'state': 'Estado',
         }
@@ -59,6 +54,7 @@ class TaskForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['type_task'].widget.attrs.update({
+            'data-role': 'select',
             'class': 'form-control',
         })
         self.fields['task'].widget.attrs.update({
@@ -68,5 +64,5 @@ class TaskForm(ModelForm):
 
 ProjectFormSet = inlineformset_factory(
     Project, Task, form=TaskForm,
-    fields=['type_task', 'task', 'state'], extra=1
+    fields=['type_task', 'task', 'state'], extra=1, can_delete=True
 )

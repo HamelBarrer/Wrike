@@ -18,9 +18,9 @@
             {% include 'sidenav.html' %}
         </div>
 
-        <div class="navview-content h-100 pt-15">
+        <div class="navview-content h-100 pt-15" style="overflow-y: auto">
             {% include 'appbar.html' %}
-            <div class="container-fluid">
+            <div class="container-inner h-100">
                 {% block content %}
                 {% endblock %}
             </div>
@@ -29,9 +29,6 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script>
-    <script src="{% static 'js/jquery.formset.js' %}"></script>
-    {% block script %}
-    {% endblock %}
 </body>
 
 </html>

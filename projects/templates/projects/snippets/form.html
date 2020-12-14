@@ -2,26 +2,34 @@
     {% csrf_token %}
     {{ form.as_p }}
     <h2>Tareas</h2>
-    {{ formset.management_form }}
-    {% for form in formset %}
-        <div id="project_form">
-            <div class="row">
-                <div class="cell-sm-12 cell-md-5">
-                    {{ form.type_task.label }}
-                    {{ form.type_task }}
-                </div>
-                <div class="cell-sm-12 cell-md-5">
-                    {{ form.task.label }}
-                    {{ form.task }}
-                </div>
-                <div class="cell-sm-12 cell-md-2">
-                    {{ form.state.label }}
-                    {{ form.state }}
-                </div>
-            </div>
-        </div>
+    <table>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            {% if forloop.first %}
+                <thead>
+                    <tr>
+                        {% for field in form.visible_fields %}
+                            <th>{{ field.label|capfirst }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+            {% endif %}
+            <tr id="projects_data">
+                {% for field in form.visible_fields %}
+                    <td>
+                        {# Include the hidden fields in the form #}
+                        {% if forloop.first %}
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        {% endif %}
+                        {{ field.errors.as_ul }}
+                        {{ field }}
+                    </td>
+                {% endfor %}
+            </tr>
         {% endfor %}
-    <button type="button" onclick="add_input();">AGREGAR</button>  
+    </table>
     <button type="submit" class="button success"><span class="mif-add icon"></span> {{ message }}</button>
     <a href="{% url 'projects:project' %}" class="button alert"><span class="mif-cancel icon"></span> Cancelar</a>
 </form>

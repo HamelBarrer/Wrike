@@ -22,10 +22,47 @@
 <div class="navview-menu-container">
     <ul class="navview-menu mt-4">
         <li class="item-header">Opciones principales</li>
-        <li class="done {% if request.path == home %}active{% endif %}"><a href="{{ home }}"><span class="mif-dashboard icon"></span>Inicio</a></li>
-        <li class="done {% if request.path == type_task %}active{% endif %}"><a href="{{ type_task }}"><span class="mif-bookmark icon"></span>Tipo de tareas</a></li>
-        <li class="done {% if request.path == project %}active{% endif %}"><a href="{{ project }}"><span class="mif-books icon"></span>Proyectos</a></li>
-        <li class="done {% if request.path == task %}active{% endif %}"><a href="{{ task }}"><span class="mif-open-book icon"></span>Tareas</a></li>
-        <li class="done {% if request.path == user %}active{% endif %}"><a href="{{ user }}"><span class="mif-users icon"></span>Usuarios</a></li>
+        <li class="{% if request.path == home %}active{% endif %}">
+            <a href="{{ home }}">
+                <span class="icon"><span class="mif-dashboard"></span></span>
+                <span class="caption">Inicio</span>
+            </a>
+        </li>
+        {% if perms.tasks.view_typetask %}
+            <li class="{% if request.path == type_task %}active{% endif %}">
+                <a href="{{ type_task }}">
+                    <span class="icon"><span class="mif-bookmark"></span></span>
+                    <span class="caption">Tipo de tareas</span>
+                </a>
+            </li>
+        {% endif %}
+        <li class="{% if request.path == project %}active{% endif %}">
+            <a href="{{ project }}">
+                <span class="icon"><span class="mif-books"></span></span>
+                <span class="caption">Proyectos</span>
+            </a>
+        </li>
+        {% if perms.tasks.view_task %}
+            <li class="{% if request.path == task %}active{% endif %}">
+                <a href="{{ task }}">
+                    <span class="icon"><span class="mif-dashboard"></span></span>
+                    <span class="caption">Tareas</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if perms.users.view_user %}
+            <li class="{% if request.path == user %}active{% endif %}">
+                <a href="{{ user }}">
+                    <span class="icon"><span class="mif-users"></span></span>
+                    <span class="caption">Usuarios</span>
+                </a>
+            </li>
+        {% endif %}
+        <li class="{% if request.path == profile %}active{% endif %}">
+            <a href="{{ profile }}">
+                <span class="icon"><span class="mif-user"></span></span>
+                <span class="caption">Perfil</span>
+            </a>
+        </li>
     </ul>
 </div>

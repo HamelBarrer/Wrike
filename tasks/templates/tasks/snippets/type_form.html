@@ -12,5 +12,6 @@
             </label>
         </p>
     </div>
-    <button class="btn" type="submit">{{ message }}</button>
+    <button class="button success" type="submit">{{ message }}</button>
+    <a href="{% url 'tasks:type_task' %}" class="button alert">cancelar</a>
 </form>
