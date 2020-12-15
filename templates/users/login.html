@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="mx-auto d-table h-100 col-sm-10 col-md-8 col-lg-6">
+    <div class="mx-auto d-table h-100 col-sm-10 col-md-8 col-lg-6 text-bold">
         <div class="d-table-cell align-middle">
             <div class="text-center mt-4">
                 <h2>Bienvenido a wrike</h2>
                 <p>Ingresa los datos para iniciar sesion</p>
             </div>
             <div class="card">
-                <div class="card-body">
+                <div class="card-content m-2">
                     <div class="m-sm-4">
                         <form method="POST">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label>Nombre de Usuario</label>
-                                <input type="text" class="form-control form-control-lg" name="username"
+                                <input type="text" data-role="input" class="form-control form-control-lg" name="username"
                                     placeholder="Ingrese el nombre de Usuario">
                             </div>
                             <div class="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" class="form-control form-control-lg" name="password"
+                                <input type="password" data-role="input" class="form-control form-control-lg" name="password"
                                     placeholder="Ingrese la Contraseña">
                             </div>
                             <div class="text-center mt-3">
-                                <button class="btn btn-lg btn-primary">Ingresar</button>
+                                <button class="button primary"><span class="mif-exit"></span> Ingresar</button>
                             </div>
                         </form>
                     </div>

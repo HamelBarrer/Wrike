@@ -6,18 +6,10 @@
             {% include 'projects/snippets/card-project.html' %}
         </div>
     {% endif %}
-    <div class="container">
-        <ul class="h-menu">
-            <li>
-                <a href="#" class="dropdown-toggle">Grafico</a>
-                <ul class="d-menu" data-role="dropdown">
-                    <li><a href="#">Skype</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Office</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+    <select name="chartType" id="chartType" onchange="updateChart()" data-role="select">
+        <option value="pie">pie</option>
+        <option value="bar">Bar</option>
+    </select>
     <div class="row">
         {% include 'projects/graphics.html' %}
     </div>

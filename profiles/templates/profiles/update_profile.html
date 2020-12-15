@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-title">Actualizar Informacion</div>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form_user.as_p }}
-            {{ form.as_p }}
-            <button type="submit" class="btn">actualizar</button>
-            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-danger">Cancelar</a>
-        </form>
+    <div class="card text-bold">
+        <div class="card-content m-2">
+            <h2 class="text-center">Actualizar Informacion</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form_user.as_p }}
+                {{ form.as_p }}
+                <button type="submit" class="button success">actualizar</button>
+                <a href="{% url 'profiles:profile' %}" class="button alert">Cancelar</a>
+            </form>
+        </div>
     </div>
 {% endblock %}

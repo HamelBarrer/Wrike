@@ -15,35 +15,35 @@
 {% url 'tasks:add_task' as add_task %}
 
 <div class="navview-container">
-    <button class="pull-button">
+    <button class="pull-button a">
         <span class="default-icon-menu"></span>
     </button>
 </div>
 <div class="navview-menu-container">
     <ul class="navview-menu mt-4">
         <li class="item-header">Opciones principales</li>
-        <li class="{% if request.path == home %}active{% endif %}">
+        <li>
             <a href="{{ home }}">
                 <span class="icon"><span class="mif-dashboard"></span></span>
                 <span class="caption">Inicio</span>
             </a>
         </li>
         {% if perms.tasks.view_typetask %}
-            <li class="{% if request.path == type_task %}active{% endif %}">
+            <li>
                 <a href="{{ type_task }}">
                     <span class="icon"><span class="mif-bookmark"></span></span>
                     <span class="caption">Tipo de tareas</span>
                 </a>
             </li>
         {% endif %}
-        <li class="{% if request.path == project %}active{% endif %}">
+        <li>
             <a href="{{ project }}">
                 <span class="icon"><span class="mif-books"></span></span>
                 <span class="caption">Proyectos</span>
             </a>
         </li>
         {% if perms.tasks.view_task %}
-            <li class="{% if request.path == task %}active{% endif %}">
+            <li>
                 <a href="{{ task }}">
                     <span class="icon"><span class="mif-dashboard"></span></span>
                     <span class="caption">Tareas</span>
@@ -51,14 +51,14 @@
             </li>
         {% endif %}
         {% if perms.users.view_user %}
-            <li class="{% if request.path == user %}active{% endif %}">
+            <li>
                 <a href="{{ user }}">
                     <span class="icon"><span class="mif-users"></span></span>
                     <span class="caption">Usuarios</span>
                 </a>
             </li>
         {% endif %}
-        <li class="{% if request.path == profile %}active{% endif %}">
+        <li>
             <a href="{{ profile }}">
                 <span class="icon"><span class="mif-user"></span></span>
                 <span class="caption">Perfil</span>

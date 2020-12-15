@@ -61,14 +61,22 @@ class UserUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })
         self.fields['last_name'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })
         self.fields['email'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-mail'></span>",
+            'class': 'form-control',
         })
         self.fields['username'].widget.attrs.update({
-            'class': 'form-control'
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
         })

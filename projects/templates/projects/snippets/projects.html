@@ -40,7 +40,7 @@
                     <td>{{ projects.status }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>
-                        <a href="{% url 'projects:view_project' projects.slug %}" class="button info">ver mas...</a>
+                        <a href="{% url 'projects:view_project' projects.slug %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>
                     </td>
                 </tr>
             {% endfor %}

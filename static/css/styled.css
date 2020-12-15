@@ -1,8 +1,26 @@
-body {
-    background-color: #edeff1;
+.navview .navview-pane{
+    color: rgba(255, 255, 255, 0.55);
+    background-color: #262F3D;
 }
 
-.navview-pane{
-    width: 100vh;
-    background-color: red;
+.navview .navview-pane .navview-container .a{
+    color: red!important;
+}
+
+.navview .navview-pane .navview-menu{
+    background-color: #262F3D;
+}
+
+.navview .navview-pane .navview-menu li a:hover{
+    border-left: 5px solid #fff;
+    background-color: #262F3D;
+}
+
+.navview .navview-content .custom-bar{
+    background-color: #fff;
+    box-shadow: 0 0 2rem 0 rgba(53, 64, 82, 0.1);
+}
+
+.navview .navview-content .content-main {
+    background-color: #F7F9FC;
 }
