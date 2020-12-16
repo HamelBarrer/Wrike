@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import request
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, logout, authenticate
-from django.views.generic import CreateView, ListView, UpdateView, TemplateView
+from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 
 from .models import User
@@ -46,19 +46,22 @@ def login_view(request):
     return render(request, template_name)
 
 
+@login_required(login_url='users:login')
 def logout_view(request):
     logout(request)
     messages.success(request, 'Sesion cerrada exitosamente')
     return redirect('users:login')
 
 
-class UserListView(LoginRequiredMixin, ListView):
+class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'users.view_user'
     login_url = 'users:login'
     template_name = 'users/users.html'
     queryset = User.objects.all().order_by('-pk')
 
 
-class UserCreationView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'users.add_user'
     login_url = 'users:login'
     template_name = 'users/register.html'
     model = User
@@ -67,7 +70,8 @@ class UserCreationView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('users:user')
 
 
-class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, UpdateView):
+    permission_required = 'users.change_user'
     login_url = 'users:login'
     template_name = 'users/update_user.html'
     form_class = UserForm

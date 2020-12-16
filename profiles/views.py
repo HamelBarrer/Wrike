@@ -23,6 +23,7 @@ def profile_view(request):
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'users:login'
     success_url = 'users:login'
     template_name = 'profiles/update_profile.html'
     form_class = ProfileForm

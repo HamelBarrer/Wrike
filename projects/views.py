@@ -4,7 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.urls.base import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.db import transaction
 from django.db.models import Count
 
@@ -31,9 +31,12 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['group'] = User.objects.filter(pk=self.request.user.pk, groups__name='administradores').exists()
-        context['admin'] = User.objects.filter(groups__name='administradores').count()
-        context['developer'] = User.objects.filter(groups__name='desarrolladores').count()
+        context['group'] = User.objects.filter(
+            pk=self.request.user.pk, groups__name='administradores').exists()
+        context['admin'] = User.objects.filter(
+            groups__name='administradores').count()
+        context['developer'] = User.objects.filter(
+            groups__name='desarrolladores').count()
         context['projects'] = Project.objects.count()
         context['tasks'] = Task.objects.count()
 
@@ -61,7 +64,8 @@ class ProjectListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ProjectView(DetailView):
+class ProjectView(LoginRequiredMixin, DetailView):
+    login_url = 'users:login'
     template_name = 'projects/view_project.html'
 
     def get_queryset(self):
@@ -73,7 +77,7 @@ class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMess
     login_url = 'users:login'
     template_name = 'projects/add_project.html'
     form_class = ProjectForm
-    permission_required = 'projects.can_add_project'
+    permission_required = 'projects.add_project'
     success_message = 'Proyecto creado exitosamente'
     success_url = reverse_lazy('projects:project')
 
@@ -100,7 +104,9 @@ class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMess
         return super().form_valid(form)
 
 
-class ProjectFormView(UpdateView):
+class ProjectFormView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'projects.change_project'
+    login_url = 'users:login'
     template_name = 'projects/update_project.html'
     form_class = ProjectForm
     model = Project

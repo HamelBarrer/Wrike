@@ -19,7 +19,7 @@ from .forms import (
 )
 
 
-class TypeTaskListView(LoginRequiredMixin, PermissionRequiredMixin,ListView):
+class TypeTaskListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     login_url = 'users:login'
     permission_required = 'tasks.view_typetask'
     template_name = 'tasks/type_task.html'
@@ -35,9 +35,9 @@ class TypeTaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     success_url = reverse_lazy('tasks:type_task')
 
 
-class TypeTaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin,UpdateView):
+class TypeTaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     login_url = 'users:login'
-    permission_required = 'tasks'
+    permission_required = 'tasks.change_typetask'
     template_name = 'tasks/update_type_task.html'
     model = TypeTask
     form_class = TypeTaskForm
@@ -51,7 +51,9 @@ class TaskListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     queryset = Task.objects.annotate(Count('activities')).order_by('-pk')
 
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    login_url = 'users:login'
+    permission_required = 'tasks.change_activities'
     template_name = 'tasks/update_task.html'
     form_class = TaskForm
     model = Task
@@ -76,7 +78,8 @@ class TaskUpdateView(UpdateView):
                 formset.save()
                 if formset:
                     activities = self.object.activities_set.count()
-                    completed = self.object.activities_set.filter(process=True).count()
+                    completed = self.object.activities_set.filter(
+                        process=True).count()
                     if activities == 0:
                         self.object.porcentage = 0
                         self.object.state = False

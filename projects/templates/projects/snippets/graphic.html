@@ -7,7 +7,7 @@
         labels: ['{{ project.name }}', 'Falta'],
         datasets: [{
             data: [{{ project.porcent }}, faltante],
-            backgroundColor: ['#252850', '#f44611']
+            backgroundColor: ['#252850', '#f44611'],
         }],
     };
 
@@ -16,12 +16,14 @@
         type: 'pie',
         data: data
     });
-
-    function updateChart() {
+    
+    var chartType = document.getElementById('chartType');
+    
+    chartType.addEventListener('change', () => {
         myChart.destroy();
         myChart = new Chart(ctx, {
-            type: document.getElementById("chartType").value,
+            type: chartType.value,
             data: data
         });
-    }
+    });
 </script>
