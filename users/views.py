@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group, Permission
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -8,7 +9,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 
 from .models import User
-from .forms import UserForm
+from .forms import UserForm, RoleUser
 
 
 def error_403(request, exception):
@@ -59,8 +60,14 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = 'users/users.html'
     queryset = User.objects.all().order_by('-pk')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['group'] = Group.objects.values_list('name', flat=True)
 
-class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+        return context
+
+
+class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'users.add_user'
     login_url = 'users:login'
     template_name = 'users/register.html'
@@ -70,11 +77,36 @@ class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessag
     success_url = reverse_lazy('users:user')
 
 
-class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin,SuccessMessageMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'users.change_user'
     login_url = 'users:login'
     template_name = 'users/update_user.html'
     form_class = UserForm
     model = User
     success_message = 'El usuario fue modificado exitosamente'
-    success_url = reverse_lazy('users:user')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.groups.clear()
+        self.object.groups.add(self.request.POST.get('groups', None))
+        self.object.save()
+        return redirect('users:user')
+
+
+class RoleUserListView(ListView):
+    template_name = 'users/role.html'
+    queryset = Group.objects.all().order_by('-pk')
+
+
+class RoleUserCreateView(CreateView):
+    template_name = 'users/add_role.html'
+    model = Group
+    form_class = RoleUser
+    success_url = reverse_lazy('users:roles')
+
+
+class RoleUserUpdateView(UpdateView):
+    template_name = 'users/update_role.html'
+    model = Group
+    form_class = RoleUser
+    success_url = reverse_lazy('users:roles')

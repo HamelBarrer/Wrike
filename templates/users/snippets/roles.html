@@ -1,5 +1,5 @@
 <table class="table" data-role="table" data-horizontal-scroll="true" data-table-search-title="Buscar: " data-table-rows-count-title="Cantidad a mostrar" data-search-threshold="25">
-    {% if perms.project.view_project %}
+    {% if group %}
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -40,7 +40,7 @@
                     <td>{{ projects.status }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>
-                        <a href="{% url 'projects:view_project' projects.slug %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>
+                        <a href="{% url 'users:update_role' projects.pk %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>
                     </td>
                 </tr>
             {% endfor %}

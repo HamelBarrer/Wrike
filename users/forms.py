@@ -1,3 +1,5 @@
+from django import forms
+from django.contrib.auth.models import Group
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 
@@ -8,11 +10,8 @@ class UserForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            'first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'role',
+            'first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'groups',
         )
-        labels = {
-            'role': 'Rol',
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,7 +45,7 @@ class UserForm(UserCreationForm):
             'data-prepend': "<span class='mif-lock'></span>",
             'class': 'form-control',
         })
-        self.fields['role'].widget.attrs.update({
+        self.fields['groups'].widget.attrs.update({
             'data-role': 'select',
         })
 
@@ -79,4 +78,23 @@ class UserUpdateForm(ModelForm):
             'data-role': 'input',
             'data-prepend': "<span class='mif-user'></span>",
             'class': 'form-control',
+        })
+
+
+class RoleUser(ModelForm):
+    class Meta:
+        model = Group
+        fields = (
+            'name', 'permissions'
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({
+            'data-role': 'input',
+            'data-prepend': "<span class='mif-user'></span>",
+            'class': 'form-control',
+        })
+        self.fields['permissions'].widget.attrs.update({
+            'data-role': 'select',
         })

@@ -17,16 +17,17 @@ from .forms import ProjectForm, ProjectFormSet
 class ProjectTemplateView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'index.html'
+    queryset = Project.objects.all().order_by('-pk')
     paginate_by = 6
 
-    def get_queryset(self):
-        group = self.request.user.groups.filter(
-            name='administradores').exists()
-        if group:
-            return Project.objects.annotate(Count('developer')).order_by('-pk')
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        is_admin = self.request.user.has_perm('tasks.view_task')
+
+        if is_admin:
+            return qs.annotate(Count('developer'))
         else:
-            developer = User.objects.filter(pk=self.request.user.pk).first()
-            return Project.objects.filter(developer=developer).order_by('-pk')
+            return qs.filter(developer=self.request.user).order_by('-pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,23 +44,23 @@ class ProjectTemplateView(LoginRequiredMixin, ListView):
         return context
 
 
-class ProjectListView(LoginRequiredMixin, ListView):
+class ProjectListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     login_url = 'users:login'
+    permission_required = 'projects.view_project'
     template_name = 'projects/project.html'
+    queryset = Project.objects.all().order_by('-pk')
 
-    def get_queryset(self):
-        group = self.request.user.groups.filter(name='administradores')
-        if group:
-            return Project.objects.annotate(Count('developer'))
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        is_admin = self.request.user.has_perm('tasks.view_task')
+
+        if is_admin:
+            return qs.annotate(Count('developer'))
         else:
-            developer = User.objects.filter(pk=self.request.user.pk).first()
-            return Project.objects.filter(developer=developer)
+            return qs.filter(developer=self.request.user).order_by('-pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['group'] = self.request.user.groups.filter(
-            name='administradores').exists()
 
         return context
 
@@ -126,6 +127,7 @@ class ProjectFormView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         formset = context['formset']
         with transaction.atomic():
             self.object = form.save()
+            print(self.object.status)
             if formset.is_valid():
                 formset.instance = self.object
                 formset.save()

@@ -1,0 +1,6 @@
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="button success" type="submit">{{ message }}</button>
+    <a href="{% url 'users:roles' %}" class="button alert">Cancelar</a>
+</form>

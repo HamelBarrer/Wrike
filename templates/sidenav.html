@@ -1,6 +1,8 @@
 <!-- Urls for the app of user -->
 {% url 'users:logout' as logout %}
 {% url 'users:user' as user %}
+{% url 'users:roles' as roles %}
+
 {% url 'profiles:profile' as profile %}
 
 <!-- Urls for the app of projects -->
@@ -55,6 +57,12 @@
                 <a href="{{ user }}">
                     <span class="icon"><span class="mif-users"></span></span>
                     <span class="caption">Usuarios</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ roles }}">
+                    <span class="icon"><span class="mif-users"></span></span>
+                    <span class="caption">Roles</span>
                 </a>
             </li>
         {% endif %}

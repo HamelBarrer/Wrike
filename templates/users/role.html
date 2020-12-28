@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-content m-2">
+            {% if perms.projects.add_project %}
+                <a class="button success" href="{% url 'users:add_role' %}"><span class="mif-add icon"></span> Crear Rol</a>
+            {% endif %}
+            <h2 class="card-title text-center">Proyectos Creados</h2>
+            {% include 'users/snippets/roles.html' %}
+        </div>
+    </div>
+{% endblock %}

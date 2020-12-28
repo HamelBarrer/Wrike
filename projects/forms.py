@@ -11,7 +11,10 @@ from .models import Project
 
 
 class ProjectForm(ModelForm):
-    developer = forms.ModelMultipleChoiceField(queryset=User.objects.filter(groups__name='desarrolladores'), label='Desarrolladores')
+    developer = forms.ModelMultipleChoiceField(
+        queryset=User.objects.filter(groups__name='desarrolladores'),
+        label='Desarrolladores',
+    )
 
     class Meta:
         model = Project
@@ -23,6 +26,12 @@ class ProjectForm(ModelForm):
             'status': 'Estado',
         }
 
+    def clean_developer(self):
+        developer = self.cleaned_data.get('developer')
+        if not developer:
+            raise forms.ValidationError('El campo es obligatorio')
+        return developer
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['developer'].widget.attrs.update({
@@ -30,7 +39,7 @@ class ProjectForm(ModelForm):
         })
         self.fields['name'].widget.attrs.update({
             'data-role': 'input',
-            'data-prepend':"<span class='mif-books'></span>",
+            'data-prepend': "<span class='mif-books'></span>",
         })
         self.fields['status'].widget.attrs.update({
             'data-role': 'select',
@@ -38,7 +47,8 @@ class ProjectForm(ModelForm):
 
 
 class TaskForm(ModelForm):
-    type_task = forms.ModelChoiceField(queryset=TypeTask.objects.filter(status=True), label='Tipo Tarea')
+    type_task = forms.ModelChoiceField(
+        queryset=TypeTask.objects.filter(status=True), label='Tipo Tarea')
 
     class Meta:
         model = Task

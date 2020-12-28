@@ -57,7 +57,7 @@ class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'tasks/update_task.html'
     form_class = TaskForm
     model = Task
-    success_url = reverse_lazy('tasks:task')
+    # success_url = reverse_lazy('tasks:task')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,4 +95,7 @@ class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
                             self.object.state = False
                             self.object.save()
 
-        return super().form_valid(form)
+        if self.request.user.has_perms(['tasks.view_task']):
+            return redirect('tasks:task')
+        else:
+            return redirect('projects:project')
