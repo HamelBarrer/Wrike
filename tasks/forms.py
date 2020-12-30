@@ -33,11 +33,10 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
-            'description', 'state'
+            'description',
         )
         labels = {
             'description': 'Descripcion',
-            'state': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):
@@ -45,9 +44,6 @@ class TaskForm(ModelForm):
         self.fields['description'].widget.attrs.update({
             'data-role': 'textarea',
             'data-prepend': "<span class='mif-description'></span>",
-        })
-        self.fields['state'].widget.attrs.update({
-            'data-role': 'checkbox'
         })
 
 

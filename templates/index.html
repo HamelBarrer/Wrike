@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if group %}
+    {% if perms.auth.add_group %}
         <div class="row">
             {% include 'projects/snippets/card-project.html' %}
         </div>

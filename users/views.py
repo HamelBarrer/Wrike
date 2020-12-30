@@ -88,7 +88,7 @@ class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.groups.clear()
-        self.object.groups.add(self.request.POST.get('groups', None))
+        self.object.groups.add(self.request.POST.get('groups'))
         self.object.save()
         return redirect('users:user')
 

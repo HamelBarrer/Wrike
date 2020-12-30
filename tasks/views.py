@@ -61,6 +61,7 @@ class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['perm'] = self.request.user.has_perm('tasks.view_task')
         if self.request.method == 'POST':
             context['formset'] = TaskFormSet(
                 self.request.POST, instance=self.object)
