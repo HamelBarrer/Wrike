@@ -8,17 +8,3 @@ class User(AbstractUser):
 
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
-
-
-# @receiver(post_save, sender=User)
-# def group_user(sender, instance, *args, **kwargs):
-#     if instance.groups:
-#         print(instance.groups)
-#         if instance.groups == 'administradores':
-#             group = Group.objects.get(name='administradores')
-#             instance.groups.clear()
-#             instance.groups.add(group)
-#         else:
-#             group = Group.objects.get(name='desarrolladores')
-#             instance.groups.clear()
-#             instance.groups.add(group)

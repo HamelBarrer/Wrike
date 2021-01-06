@@ -27,6 +27,9 @@ class TypeTaskForm(ModelForm):
             'data-prepend': "<span class='mif-bookmark'></span>",
             'class': 'form-control',
         })
+        self.fields['status'].widget.attrs.update({
+            'data-role': 'switch',
+        })
 
 
 class TaskForm(ModelForm):
@@ -51,11 +54,11 @@ class ActivitiesForm(ModelForm):
     class Meta:
         model = Activities
         fields = (
-            'name', 'process',
+            'name', 'status',
         )
         labels = {
             'name': 'Nombre',
-            'process': 'Proseso',
+            'status': 'Proseso',
         }
 
     def __init__(self, *args, **kwargs):
@@ -65,12 +68,11 @@ class ActivitiesForm(ModelForm):
             'data-prepend': "<span class='mif-bookmark'></span>",
             'class': 'form-control',
         })
-        self.fields['process'].widget.attrs.update({
+        self.fields['status'].widget.attrs.update({
             'data-role': 'checkbox'
         })
 
 
 TaskFormSet = inlineformset_factory(
-    Task, Activities, form=ActivitiesForm,
-    fields=['name', 'process'], extra=1, can_delete=True
+    Task, Activities, form=ActivitiesForm, extra=1, can_delete=True
 )

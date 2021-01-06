@@ -13,14 +13,10 @@ class TypeTask(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=60, unique=True)
     status = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
 
     def __str__(self):
         return self.name
-
-    class Meta:
-        verbose_name = 'Tipo tarea'
-        verbose_name_plural = 'Tipo tareas'
 
 
 class Task(models.Model):
@@ -28,11 +24,11 @@ class Task(models.Model):
     type_task = models.ForeignKey(TypeTask, on_delete=models.CASCADE)
     task = models.CharField(max_length=50)
     description = models.TextField()
-    state = models.BooleanField(default=False)
-    porcentage = models.IntegerField(default=0)
+    status = models.BooleanField(default=False)
+    percentage = models.IntegerField(default=0)
     slug = models.SlugField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
-    updated_at = models.DateTimeField(auto_now=timezone.now())
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
+    updated_at = models.DateTimeField(auto_now=timezone.now)
 
     def __str__(self):
         return self.task
@@ -40,9 +36,9 @@ class Task(models.Model):
 
 class Activities(models.Model):
     name = models.CharField(max_length=50)
-    process = models.BooleanField(default=False)
+    status = models.BooleanField(default=False)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
 
     def __str__(self):
         return self.name

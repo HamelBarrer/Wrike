@@ -127,26 +127,25 @@ class ProjectFormView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         formset = context['formset']
         with transaction.atomic():
             self.object = form.save()
-            print(self.object.status)
             if formset.is_valid():
                 formset.instance = self.object
                 formset.save()
                 if formset:
                     activities = self.object.task_set.count()
-                    completed = self.object.task_set.filter(state=True).count()
+                    completed = self.object.task_set.filter(status=True).count()
                     if activities == 0:
-                        self.object.porcent = 0
-                        self.object.status = 'proccess'
+                        self.object.percentage = 0
+                        self.object.status = False
                         self.object.save()
                     else:
                         total = (completed * 100) // activities
                         if total == 100:
-                            self.object.porcent = total
-                            self.object.status = 'inactive'
+                            self.object.percentage = total
+                            self.object.status = True
                             self.object.save()
                         else:
-                            self.object.porcent = total
-                            self.object.status = 'process'
+                            self.object.percentage = total
+                            self.object.status = False
                             self.object.save()
 
         return super().form_valid(form)

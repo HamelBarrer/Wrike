@@ -16,61 +16,63 @@
 {% url 'tasks:task' as task %}
 {% url 'tasks:add_task' as add_task %}
 
-<div class="navview-container">
-    <button class="pull-button a">
-        <span class="default-icon-menu"></span>
-    </button>
-</div>
-<div class="navview-menu-container">
-    <ul class="navview-menu mt-4">
-        <li class="item-header">Opciones principales</li>
-        <li>
-            <a href="{{ home }}">
-                <span class="icon"><span class="mif-dashboard"></span></span>
-                <span class="caption">Inicio</span>
-            </a>
-        </li>
-        {% if perms.tasks.view_typetask %}
+<turbo-frame id="menu" target="_top">
+    <div class="navview-container">
+        <button class="pull-button a">
+            <span class="default-icon-menu"></span>
+        </button>
+    </div>
+    <div class="navview-menu-container">
+        <ul class="navview-menu mt-4">
+            <li class="item-header">Opciones principales</li>
             <li>
-                <a href="{{ type_task }}">
-                    <span class="icon"><span class="mif-bookmark"></span></span>
-                    <span class="caption">Tipo de tareas</span>
-                </a>
-            </li>
-        {% endif %}
-        <li>
-            <a href="{{ project }}">
-                <span class="icon"><span class="mif-books"></span></span>
-                <span class="caption">Proyectos</span>
-            </a>
-        </li>
-        {% if perms.tasks.view_task %}
-            <li>
-                <a href="{{ task }}">
+                <a href="{{ home }}">
                     <span class="icon"><span class="mif-dashboard"></span></span>
-                    <span class="caption">Tareas</span>
+                    <span class="caption">Inicio</span>
                 </a>
             </li>
-        {% endif %}
-        {% if perms.users.view_user %}
+            {% if perms.tasks.view_typetask %}
+                <li>
+                    <a href="{{ type_task }}">
+                        <span class="icon"><span class="mif-bookmark"></span></span>
+                        <span class="caption">Tipo de tareas</span>
+                    </a>
+                </li>
+            {% endif %}
             <li>
-                <a href="{{ user }}">
-                    <span class="icon"><span class="mif-users"></span></span>
-                    <span class="caption">Usuarios</span>
+                <a href="{{ project }}">
+                    <span class="icon"><span class="mif-books"></span></span>
+                    <span class="caption">Proyectos</span>
                 </a>
             </li>
+            {% if perms.tasks.view_task %}
+                <li>
+                    <a href="{{ task }}">
+                        <span class="icon"><span class="mif-dashboard"></span></span>
+                        <span class="caption">Tareas</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.users.view_user %}
+                <li>
+                    <a href="{{ user }}">
+                        <span class="icon"><span class="mif-users"></span></span>
+                        <span class="caption">Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ roles }}">
+                        <span class="icon"><span class="mif-users"></span></span>
+                        <span class="caption">Roles</span>
+                    </a>
+                </li>
+            {% endif %}
             <li>
-                <a href="{{ roles }}">
-                    <span class="icon"><span class="mif-users"></span></span>
-                    <span class="caption">Roles</span>
+                <a href="{{ profile }}">
+                    <span class="icon"><span class="mif-user"></span></span>
+                    <span class="caption">Perfil</span>
                 </a>
             </li>
-        {% endif %}
-        <li>
-            <a href="{{ profile }}">
-                <span class="icon"><span class="mif-user"></span></span>
-                <span class="caption">Perfil</span>
-            </a>
-        </li>
-    </ul>
-</div>
+        </ul>
+    </div>
+</turbo-frame>

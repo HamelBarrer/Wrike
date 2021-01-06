@@ -19,18 +19,13 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
-            'developer', 'name', 'status'
+            'developer', 'name', 'start_date', 'end_date'
         )
         labels = {
             'name': 'Nombre de Proyecto',
-            'status': 'Estado',
+            'start_date': 'Fecha de Inicio',
+            'end_date': 'Fecha de Finalizacion',
         }
-
-    def clean_developer(self):
-        developer = self.cleaned_data.get('developer')
-        if not developer:
-            raise forms.ValidationError('El campo es obligatorio')
-        return developer
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,8 +36,13 @@ class ProjectForm(ModelForm):
             'data-role': 'input',
             'data-prepend': "<span class='mif-books'></span>",
         })
-        self.fields['status'].widget.attrs.update({
-            'data-role': 'select',
+        self.fields['start_date'].widget.attrs.update({
+            'data-role': 'calendarpicker',
+            'data-input-format': '%d/%m/%y',
+        })
+        self.fields['end_date'].widget.attrs.update({
+            'data-role': 'calendarpicker',
+            'data-input-format': '%d/%m/%y',
         })
 
 
@@ -53,12 +53,12 @@ class TaskForm(ModelForm):
     class Meta:
         model = Task
         fields = (
-            'type_task', 'task', 'state'
+            'type_task', 'task', 'status'
         )
 
         labels = {
             'task': 'Tarea',
-            'state': 'Estado',
+            'status': 'Estado',
         }
 
     def __init__(self, *args, **kwargs):
@@ -74,5 +74,5 @@ class TaskForm(ModelForm):
 
 ProjectFormSet = inlineformset_factory(
     Project, Task, form=TaskForm,
-    fields=['type_task', 'task', 'state'], extra=1, can_delete=True
+    fields=['type_task', 'task', 'status'], extra=1, can_delete=True
 )
