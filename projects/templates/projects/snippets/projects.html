@@ -4,8 +4,6 @@
             <tr>
                 <th>Nombre</th>
                 <th>Desarrolladores</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha Fin</th>
                 <th>Estado</th>
                 <th>Fecha de Creacion</th>
                 <th>Acciones</th>
@@ -17,8 +15,6 @@
                 <tr>
                     <td>{{ projects.name }}</td>
                     <td>{{ projects.developer__count }}</td>
-                    <td>{{ projects.start_date }}</td>
-                    <td>{{ projects.end_date }}</td>
                     <td>{{ projects.status|yesno:'Completado,En proceso' }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>

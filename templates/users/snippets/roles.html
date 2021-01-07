@@ -1,49 +1,19 @@
 <table class="table" data-role="table" data-horizontal-scroll="true" data-table-search-title="Buscar: " data-table-rows-count-title="Cantidad a mostrar" data-search-threshold="25">
-    {% if group %}
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Desarrolladores</th>
-                <th>Estado</th>
-                <th>Fecha de Creacion</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
 
-        <tbody>
-            {% for projects in object_list %}
-                <tr>
-                    <td>{{ projects.name }}</td>
-                    <td>{{ projects.developer__count }}</td>
-                    <td>{{ projects.status }}</td>
-                    <td>{{ projects.created_at }}</td>
-                    <td>
-                        <a href="{% url 'projects:update_project' projects.slug %}" class="button info"><span class="mif-pencil icon"></span> Editar</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead>
+    <tbody>
+        {% for projects in object_list %}
             <tr>
-                <th>Nombre</th>
-                <th>Estado</th>
-                <th>Fecha de Creacion</th>
-                <th>Acciones</th>
+                <td>{{ projects.name }}</td>
+                <td>
+                    <a href="{% url 'users:update_role' projects.pk %}" class="button info"><span class="mif-pencil icon"></span> Editar</a>
+                </td>
             </tr>
-        </thead>
-
-        <tbody>
-            {% for projects in object_list %}
-                <tr>
-                    <td>{{ projects.name }}</td>
-                    <td>{{ projects.status }}</td>
-                    <td>{{ projects.created_at }}</td>
-                    <td>
-                        <a href="{% url 'users:update_role' projects.pk %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    {% endif %}
+        {% endfor %}
+    </tbody>
 </table>

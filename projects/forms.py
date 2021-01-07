@@ -19,12 +19,10 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = (
-            'developer', 'name', 'start_date', 'end_date'
+            'developer', 'name'
         )
         labels = {
             'name': 'Nombre de Proyecto',
-            'start_date': 'Fecha de Inicio',
-            'end_date': 'Fecha de Finalizacion',
         }
 
     def __init__(self, *args, **kwargs):
@@ -35,14 +33,6 @@ class ProjectForm(ModelForm):
         self.fields['name'].widget.attrs.update({
             'data-role': 'input',
             'data-prepend': "<span class='mif-books'></span>",
-        })
-        self.fields['start_date'].widget.attrs.update({
-            'data-role': 'calendarpicker',
-            'data-input-format': '%d/%m/%y',
-        })
-        self.fields['end_date'].widget.attrs.update({
-            'data-role': 'calendarpicker',
-            'data-input-format': '%d/%m/%y',
         })
 
 

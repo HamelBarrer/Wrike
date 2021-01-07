@@ -74,7 +74,13 @@ class UserCreationView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
     model = User
     form_class = UserForm
     success_message = 'El usuario fue creado exitosamente'
-    success_url = reverse_lazy('users:user')
+    # success_url = reverse_lazy('users:user')
+
+    def form_valid(self, form):
+        user = form.save()
+        group = Group.objects.get(pk=self.request.POST.get('groups'))
+        user.groups.add(group)
+        return redirect('users:user')
 
 
 class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):

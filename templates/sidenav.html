@@ -39,12 +39,14 @@
                     </a>
                 </li>
             {% endif %}
-            <li>
-                <a href="{{ project }}">
-                    <span class="icon"><span class="mif-books"></span></span>
-                    <span class="caption">Proyectos</span>
-                </a>
-            </li>
+            {% if perms.projects.view_project %}
+                <li>
+                    <a href="{{ project }}">
+                        <span class="icon"><span class="mif-books"></span></span>
+                        <span class="caption">Proyectos</span>
+                    </a>
+                </li>
+            {% endif %}
             {% if perms.tasks.view_task %}
                 <li>
                     <a href="{{ task }}">

@@ -80,23 +80,27 @@ class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
                 if formset:
                     activities = self.object.activities_set.count()
                     completed = self.object.activities_set.filter(
-                        process=True).count()
+                        status=True).count()
                     if activities == 0:
-                        self.object.porcentage = 0
-                        self.object.state = False
+                        self.object.percentage = 0
+                        self.object.status = False
                         self.object.save()
                     else:
                         total = (completed * 100) // activities
                         if total == 100:
-                            self.object.porcentage = total
-                            self.object.state = True
+                            self.object.percentage = total
+                            self.object.status = True
                             self.object.save()
                         else:
-                            self.object.porcentage = total
-                            self.object.state = False
+                            self.object.percentage = total
+                            self.object.status = False
                             self.object.save()
 
         if self.request.user.has_perms(['tasks.view_task']):
             return redirect('tasks:task')
         else:
             return redirect('projects:project')
+    
+    def form_invalid(self, form):
+        print(form)
+        return redirect('tasks:task')

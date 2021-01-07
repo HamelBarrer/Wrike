@@ -1,7 +1,7 @@
 <canvas id="{{ project.slug }}" width="400" height="400"></canvas>
 
 <script type="text/javascript">
-    var faltante = 100 - {{ project.porcent }};
+    var faltante = 100 - {{ project.percentage }};
 
     var data = {
         labels: ['{{ project.name }}', 'Falta'],
