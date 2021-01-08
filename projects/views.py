@@ -17,12 +17,12 @@ from .forms import ProjectForm, ProjectFormSet
 class ProjectTemplateView(LoginRequiredMixin, ListView):
     login_url = 'users:login'
     template_name = 'index.html'
-    queryset = Project.objects.all().order_by('-pk')
+    queryset = Project.objects.annotate(developer_count=Count('developer')).order_by('-pk')
     paginate_by = 6
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        is_admin = self.request.user.has_perm('tasks.view_task')
+        is_admin = self.request.user.has_perm('auth.add_group')
 
         if is_admin:
             return qs.annotate(Count('developer'))
@@ -132,7 +132,8 @@ class ProjectFormView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
                 formset.save()
                 if formset:
                     activities = self.object.task_set.count()
-                    completed = self.object.task_set.filter(status=True).count()
+                    completed = self.object.task_set.filter(
+                        status=True).count()
                     if activities == 0:
                         self.object.percentage = 0
                         self.object.status = False

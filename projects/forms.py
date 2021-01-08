@@ -12,7 +12,7 @@ from .models import Project
 
 class ProjectForm(ModelForm):
     developer = forms.ModelMultipleChoiceField(
-        queryset=User.objects.exclude(groups__name='administradores'),
+        queryset=User.objects.filter(groups__name='administradores'),
         label='Desarrolladores',
     )
 

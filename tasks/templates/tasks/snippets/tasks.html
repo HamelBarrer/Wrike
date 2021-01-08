@@ -5,6 +5,7 @@
             <th>Tipo de tarea</th>
             <th>Tarea</th>
             <th>Cantidad actividades</th>
+            <th>Porcentaje realizado</th>
             <th>Estado</th>
             <th>Fecha de creacion</th>
             <th>Acciones</th>
@@ -18,6 +19,7 @@
                 <td>{{ activities.type_task }}</td>
                 <td>{{ activities.task }}</td>
                 <td>{{ activities.activities__count }}</td>
+                <td>{{ activities.percentage }}</td>
                 <td>{{ activities.status|yesno:'Completado,En proceso' }}</td>
                 <td>{{ activities.created_at }}</td>
                 <td>

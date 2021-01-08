@@ -17,8 +17,8 @@ class Project(models.Model):
     status = models.BooleanField(default=False)
     slug = models.SlugField(max_length=50, unique=True)
     percentage = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=timezone.now)
-    update_at = models.DateTimeField(auto_now=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    update_at = models.DateTimeField(auto_now=timezone.now())
 
     def __str__(self):
         return self.name

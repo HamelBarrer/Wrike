@@ -72,9 +72,16 @@ WSGI_APPLICATION = 'wrike.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'wrile',
+        'USER': 'sa',
+        'PASSWORD': 'Etib2012$',
+        'HOST': 'FENIX\DESARROLLO',
+
+        'OPTIONS': {
+            'driver': 'ODBC Driver 13 for SQL Server',
+        },
+    },
 }
 
 

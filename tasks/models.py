@@ -1,10 +1,11 @@
 import uuid
 
 from django.db import models
+from django.db.models.aggregates import Count
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save, pre_save
 
 from projects.models import Project
 
@@ -27,8 +28,8 @@ class Task(models.Model):
     status = models.BooleanField(default=False)
     percentage = models.IntegerField(default=0)
     slug = models.SlugField(max_length=60, unique=True)
-    created_at = models.DateTimeField(auto_now_add=timezone.now)
-    updated_at = models.DateTimeField(auto_now=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    updated_at = models.DateTimeField(auto_now=timezone.now())
 
     def __str__(self):
         return self.task
@@ -60,3 +61,9 @@ def set_slug_task(sender, instance, *args, **kwargs):
             )
 
         instance.slug = slug
+
+
+@receiver(pre_save, sender=Task)
+def set_completed_project(sender, instance, **kwargs):
+    total = Task.objects.filter(project=instance.project, status=True).count()
+    print(total)
