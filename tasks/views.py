@@ -96,11 +96,7 @@ class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
                             self.object.status = False
                             self.object.save()
 
-        if self.request.user.has_perms(['tasks.view_task']):
+        if self.request.user.has_perms(['auth.add_group']):
             return redirect('tasks:task')
         else:
             return redirect('projects:project')
-    
-    def form_invalid(self, form):
-        print(form)
-        return redirect('tasks:task')

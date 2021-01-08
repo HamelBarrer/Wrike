@@ -52,7 +52,7 @@ class ProjectListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        is_admin = self.request.user.has_perm('tasks.view_task')
+        is_admin = self.request.user.has_perm('auth.add_group')
 
         if is_admin:
             return qs.annotate(Count('developer'))

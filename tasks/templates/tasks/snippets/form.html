@@ -34,5 +34,5 @@
         {% endfor %}
     </table>
     <button type="submit" class="button success">{{ message }}</button>
-    <a href="{% url 'tasks:task' %}" class="button alert">Cancelar</a>
+    <a href="{{ request.META.HTTP_REFERER }}" class="button alert">Cancelar</a>
 </form>

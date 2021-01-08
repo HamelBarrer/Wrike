@@ -16,8 +16,8 @@
                     <tbody>
                         {% for task in object.task_set.all %}
                             <tr>
-                                <td>{{ task }}</td>
-                                <td>{{ task.state|yesno:'Completado,En proceso' }}</td>
+                                <td>{{ task.task }}</td>
+                                <td>{{ task.status|yesno:'Completado,En proceso' }}</td>
                                 <td>{{ task.created_at }}</td>
                                 <td>
                                     <a href="{% url 'tasks:update_task' task.slug %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>

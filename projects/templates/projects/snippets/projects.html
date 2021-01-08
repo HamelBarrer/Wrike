@@ -38,8 +38,8 @@
             {% for projects in object_list %}
                 <tr>
                     <td>{{ projects.name }}</td>
-                    <td>{{ projects.status }}</td>
-                    <td>{{ projects.porcent }}</td>
+                    <td>{{ projects.status|yesno:'Completado,En proceso' }}</td>
+                    <td>{{ projects.percentage }}</td>
                     <td>{{ projects.created_at }}</td>
                     <td>
                         <a href="{% url 'projects:view_project' projects.slug %}" class="button info"><span class="mif-eye icon"></span> ver mas...</a>
