@@ -15,66 +15,57 @@
 <!-- Urls for the app of task -->
 {% url 'tasks:task' as task %}
 {% url 'tasks:add_task' as add_task %}
-
-<turbo-frame id="menu" target="_top">
-    <div class="navview-container">
-        <button class="pull-button a">
-            <span class="default-icon-menu"></span>
-        </button>
+<div class="sidebar">
+    <div class="sidebar-menu">
+        <a href="{{ home }}" class="sidebar-link sidebar-link-with-icon">
+            <span class="sidebar-icon">
+                <i class="fas fa-home"></i>
+            </span>
+            <span class="caption">Inicio</span>
+        </a>
+        {% if perms.tasks.view_typetask %}
+            <a href="{{ type_task }}" class="sidebar-link sidebar-link-with-icon">
+                <span class="sidebar-icon">
+                    <i class="fab fa-stack-exchange"></i>
+                </span>
+                <span class="caption">Tipo de tareas</span>
+            </a>
+        {% endif %}
+        {% if perms.projects.view_project %}
+            <a href="{{ project }}" class="sidebar-link sidebar-link-with-icon">
+                <span class="sidebar-icon">
+                    <i class="fab fa-stack-exchange"></i>
+                </span>
+                <span class="caption">Proyectos</span>
+            </a>
+        {% endif %}
+        {% if perms.tasks.view_task %}
+            <a href="{{ task }}" class="sidebar-link sidebar-link-with-icon">
+                <span class="sidebar-icon">
+                    <i class="fas fa-tasks"></i>
+                </span>
+                <span class="caption">Tareas</span>
+            </a>
+        {% endif %}
+        {% if perms.users.view_user %}
+            <a href="{{ user }}" class="sidebar-link sidebar-link-with-icon">
+                <span class="sidebar-icon">
+                    <i class="fas fa-users"></i>
+                </span>
+                <span class="caption">Usuarios</span>
+            </a>
+            <a href="{{ roles }}" class="sidebar-link sidebar-link-with-icon">
+                <span class="sidebar-icon">
+                    <i class="fas fa-user-tag"></i>
+                </span>
+                <span class="caption">Roles</span>
+            </a>
+        {% endif %}
+        <a href="{{ profile }}" class="sidebar-link sidebar-link-with-icon">
+            <span class="sidebar-icon">
+                <i class="fas fa-user"></i>
+            </span>
+            <span class="caption">Perfil</span>
+        </a>
     </div>
-    <div class="navview-menu-container">
-        <ul class="navview-menu mt-4">
-            <li class="item-header">Opciones principales</li>
-            <li>
-                <a href="{{ home }}">
-                    <span class="icon"><span class="mif-dashboard"></span></span>
-                    <span class="caption">Inicio</span>
-                </a>
-            </li>
-            {% if perms.tasks.view_typetask %}
-                <li>
-                    <a href="{{ type_task }}">
-                        <span class="icon"><span class="mif-bookmark"></span></span>
-                        <span class="caption">Tipo de tareas</span>
-                    </a>
-                </li>
-            {% endif %}
-            {% if perms.projects.view_project %}
-                <li>
-                    <a href="{{ project }}">
-                        <span class="icon"><span class="mif-books"></span></span>
-                        <span class="caption">Proyectos</span>
-                    </a>
-                </li>
-            {% endif %}
-            {% if perms.tasks.view_task %}
-                <li>
-                    <a href="{{ task }}">
-                        <span class="icon"><span class="mif-dashboard"></span></span>
-                        <span class="caption">Tareas</span>
-                    </a>
-                </li>
-            {% endif %}
-            {% if perms.users.view_user %}
-                <li>
-                    <a href="{{ user }}">
-                        <span class="icon"><span class="mif-users"></span></span>
-                        <span class="caption">Usuarios</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ roles }}">
-                        <span class="icon"><span class="mif-users"></span></span>
-                        <span class="caption">Roles</span>
-                    </a>
-                </li>
-            {% endif %}
-            <li>
-                <a href="{{ profile }}">
-                    <span class="icon"><span class="mif-user"></span></span>
-                    <span class="caption">Perfil</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</turbo-frame>
+</div>

@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from simple_history.models import HistoricalRecords
 
 from users.models import User
 
@@ -14,6 +15,7 @@ class Profile(models.Model):
     direction = models.CharField(max_length=80, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=timezone.now())
     updated_at = models.DateTimeField(auto_now=timezone.now())
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.user.username

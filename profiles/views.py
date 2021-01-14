@@ -17,8 +17,12 @@ def profile_view(request):
     user = request.user
     profile = Profile.objects.filter(user=user).first()
 
+    history = Profile.history.filter(history_user=user)
+    print(history)
+
     return render(request, template_name, {
         'profile': profile,
+        'history': history,
     })
 
 

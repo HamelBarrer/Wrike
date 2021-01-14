@@ -1,30 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card text-bold">
-    <div class="card-content m-2">
-        <div class="social-box">
-            <div class="header bg-cyan fg-white">
-                <img src="{{ profile.avatar.url }}" class="avatar img-fluid">
-                <div class="title">{{ user.first_name }} {{ user.last_name }}</div>
-                <div class="subtitle">{{ user.role }}</div>
-                <a href="{% url 'profiles:update_profile' profile.pk %}" class="button success mt-2"><span class="mif-pencil icon"></span> editar perfil</a>
+
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="w-400 mw-full">
+            <div class="card text-center">
+                <img src="{{ profile.avatar.url }}" class="img-fluid rounded-top" alt="...">
+                <div class="content">
+                    <h2 class="content-title">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h2>
+                </div>
+                <hr />
+                <div class="content">
+                    <h2 class="content-title">
+                        Fecha de Creacion
+                    </h2>
+                    <div>
+                        {{ profile.created_at }}
+                    </div>
+                    <hr />
+                    <div>
+                        <strong>Fecha de Actualizacion</strong>
+                        <br />
+                        {{ profile.updated_at }}
+                    </div>
+                    <hr />
+                    <div>
+                        <strong>Numero Celular</strong>
+                        <br />
+                        {{ profile.phone }}
+                    </div>
+                    <div class="text-center mt-20">
+                        <a href="{% url 'profiles:update_profile' profile.pk %}" class="btn">editar</a>
+                    </div>
+                </div>
             </div>
-            <ul class="skills">
-                <li>
-                    <div>NOMBRE DE USUARIO</div>
-                    <div class="text-bold">{{ user.username }}</div>
-                </li>
-                <li>
-                    <div>CORREO</div>
-                    <div class="text-bold">{{ user.email }}</div>
-                </li>
-                <li>
-                    <div>FECHA DE CREACION</div>
-                    <div class="text-bold">{{ user.date_joined }}</div>
-                </li>
-            </ul>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="w-400 mw-full">
+            <div class="card text-center">
+                <div class="content">
+                    <div class="content-title">
+                        <h2 class="text-uppercase">Historial</h2>
+                        {{ history }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

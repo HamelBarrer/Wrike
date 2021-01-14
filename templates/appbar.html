@@ -1,8 +1,31 @@
-<div data-role="appbar" data-expand="true" data-shadow="true" class="pos-absolute app-bar custom-bar">
-
-    <div class="ml-auto">
-        <ul class="app-bar-menu">
-            <li><a href="{% url 'users:logout' %}"><span class="mif-exit"></span> Cerrar sesion</a></li>
-        </ul>
+<nav class="navbar">
+    <div class="navbar-content">
+        <button id="toggle-sidebar-btn" class="btn btn-action" type="button" onclick="halfmoon.toggleSidebar()">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
     </div>
-</div>
+    <div class="navbar-content ml-auto">
+        <button class="btn btn-action mr-5" type="button" onclick="halfmoon.toggleDarkMode()">
+            <i class="fas fa-sun"></i>
+            <span class="sr-only">Toggle dark mode</span>
+        </button>
+        <div class="dropdown dropbottom with-arrow">
+            <button class="btn" data-toggle="dropdown" type="button" id="..." aria-haspopup="true"
+                aria-expanded="false">
+                {{ request.user}} <i class="fa fa-angle-down ml-5" aria-hidden="true"></i>
+                <!-- ml-5 = margin-left: 0.5rem (5px) -->
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <img src="{{ request.user.profile.avatar.url }}" class="img-fluid" alt="Imagen del usuario">
+                <a href="{% url 'users:logout' %}" class="btn btn-primary">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Roles
+                </a>
+                <a href="{% url 'users:logout' %}" class="btn btn-primary">
+                    <i class="fas fa-sign-out-alt"></i>
+                    cerrar sesion
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
